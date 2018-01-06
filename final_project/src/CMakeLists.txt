@@ -7,7 +7,8 @@ set(SOURCE_FILES
         include/Key.h
         include/ParameterK.h
         include/Value.h
-        main.cpp)
+        main.cpp
+        include/BalancedTreeK.h)
 
 include_directories(include)
 
