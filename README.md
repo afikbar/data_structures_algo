@@ -8,11 +8,19 @@ The Technion, Israel Institute of Technology, is ranked at the top 100 engineeri
 Interested? read more here!
 
 Commit Emoji convention
+
 📝 Add comment or doc
+
 🎁 New feature
+
 🐛 Bug fix
+
 💣 Breaking compatibility
+
 ✅ Write test
+
 🔥 Remove something
+
 🙏 Hope not to break anything
+
 🍺 Anything else
