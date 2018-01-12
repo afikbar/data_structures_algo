@@ -9,6 +9,16 @@
 
 class InternalNode : public Node {
 
+private:
+    Node *_child[2 * K - 1];
+
+public:
+    const bool isLeaf() { return false; };
+
+    bool remove_child(Node *child);
+
+
+
 };
 
 #endif //SRC_INTERNALNODE_H

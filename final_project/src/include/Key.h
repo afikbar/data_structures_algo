@@ -1,6 +1,8 @@
 #ifndef Key_H
 #define Key_H
 
+#include <cstddef>
+
 class Key {
 public:
     virtual ~Key() {};

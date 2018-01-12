@@ -10,8 +10,15 @@
 #include <cstddef>
 
 class BalancedTreeK {
+
+private:
+
+
+
 public:
-    BalancedTreeK(const Key *min, const Key *max) {}
+    BalancedTreeK(const Key *min, const Key *max) {
+
+    }
 
     virtual ~BalancedTreeK() {
 
@@ -29,7 +36,6 @@ public:
 
     const Value *GetMaxValue(const Key *key1, const Key *key2) const;
 
-private:
 
 };
 

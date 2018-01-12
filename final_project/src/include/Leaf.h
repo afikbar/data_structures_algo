@@ -9,6 +9,17 @@
 
 class Leaf : public Node {
 
+private:
+    Value *_value;
+
+public:
+    Value *get_value() const { return _value; };
+
+    void set_value(Value *value) { _value = value->clone(); };
+
+    const bool isLeaf() { return true; };
+
+
 };
 
 #endif //SRC_LEAF_H
