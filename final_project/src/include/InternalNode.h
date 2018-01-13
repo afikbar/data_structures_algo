@@ -34,6 +34,8 @@ public:
 
     void count_child();
 
+    int find_orderStats(Node *newChild);
+
     void add_child(Node* newChild);
 
     virtual Node *insert_split(Node *newNode);

@@ -86,6 +86,22 @@ void InternalNode::add_child(Node *newChild) {
 
 }
 
+int InternalNode::find_orderStats(Node *newChild) {
+    int left = 0, right = this->_child_count;
+    while (left <= right) { //binary search
+        int middle = (left + right) / 2;
+        if (_childArr[middle] > newChild)
+            right = middle - 1;
+        else
+            left = middle + 1;
+    }
+    return left; //upper bound in end of search
+//
+//    int i = 0;
+//    while (newChild > this->_childArr[i] && i < 2 * K - 1) i++;
+    return i;
+}
+
 
 
 //    auto temp_child = newChild;
