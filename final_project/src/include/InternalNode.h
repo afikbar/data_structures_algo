@@ -13,6 +13,7 @@ private:
     Node **_childArr;
     int _child_count;
 
+
 public:
     InternalNode() {};
 
@@ -41,8 +42,6 @@ public:
     virtual Node *insert_split(Node *newNode);
 
     void set_childArr(Node **childArr);
-
-    void set_child(Node *newChild);
 
     const bool isLeaf() { return false; };
 

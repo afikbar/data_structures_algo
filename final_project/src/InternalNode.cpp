@@ -39,7 +39,7 @@ void InternalNode::set_childArr(Node **childArr) {
 }
 
 
-void InternalNode::set_child(Node *newChild) {
+void InternalNode::add_child(Node *newChild) {
     newChild->set_parent(this);
     if (this->_childArr[0] == NULL) { //init, first one is min Sentinel
         this->_childArr[0] = newChild;
@@ -48,7 +48,7 @@ void InternalNode::set_child(Node *newChild) {
         return;
     }
 
-    //find node places
+    //find node places - to be fixed using orderStats and maybe implement new method to shift array.
     auto temp_child = newChild;
     for (int i = 1; i < 2 * K - 1; ++i) { // assuming node is larger than minSentinel
         auto currChild = this->_childArr[i]; // this doesnt handle case if no room for the child?
@@ -66,7 +66,7 @@ Node *InternalNode::insert_split(Node *newNode) {
     int zOrderStats = this->find_orderStats(newNode); //finds the place of newNode
     if (this->_child_count < 2 * K - 1) { //handles case where there is room for newNode.
 //        this->add_child(newNode);
-        for (int i = 0, j = 0; j < 2 * K - 1 && i < 2 * K - 1; ++i, ++j) {
+        for (int i = 0, j = 0; j < _child_count && i < _child_count; ++i, ++j) {
             if (i == zOrderStats) {
                 x_childArr[i] = newNode;
                 i++;
@@ -76,11 +76,11 @@ Node *InternalNode::insert_split(Node *newNode) {
         this->set_childArr(x_childArr);
         return NULL;
     }
-    Node *y = new InternalNode();
+    InternalNode *y = new InternalNode();
     Node **y_childArr = new Node *[2 * K - 1];
 
     int i, j = 0;
-    for (i,j; j < K && i < K; ++i, ++j) {
+    for (i, j; j < K && i < K; ++i, ++j) {
         if (zOrderStats < K) {
             if (i == zOrderStats) {
                 x_childArr[i] = newNode;
@@ -98,27 +98,15 @@ Node *InternalNode::insert_split(Node *newNode) {
             y_childArr[j] = this->_childArr[K + i - 1];
         }
     }
-    for (i;i<K;++i)x_childArr[i] = this->_childArr[i]; //completes left-overs
-    for (j;j < K;++j)y_childArr[j] = this->_childArr[K + j - 1];
+    for (i; i < K; ++i)x_childArr[i] = this->_childArr[i]; //completes left-overs
+    for (j; j < K; ++j)y_childArr[j] = this->_childArr[K + j - 1];
+
+    this->set_childArr(x_childArr);
+    y->set_childArr(y_childArr);
 
     return y;
 }
 
-void InternalNode::add_child(Node *newChild) {
-    newChild->set_parent(this);
-    auto temp_child = newChild;
-    auto currChild = this->_childArr[0];
-    for (int i = 1; i < 2 * K - 1 && this->_childArr[i - 1] != NULL; ++i) { //assuming newChild larger than minSentinel.
-
-        if (temp_child < currChild) {
-            Node *temp = currChild;
-            this->_childArr[i - 1] = temp_child;
-            temp_child = temp;
-        }
-        auto currChild = this->_childArr[i];
-    }
-
-}
 
 int InternalNode::find_orderStats(Node *newChild) {
     int left = 0, right = this->_child_count;
@@ -130,22 +118,4 @@ int InternalNode::find_orderStats(Node *newChild) {
             left = middle + 1;
     }
     return left; //upper bound in end of search
-//
-//    int i = 0;
-//    while (newChild > this->_childArr[i] && i < 2 * K - 1) i++;
-    return i;
 }
-
-
-
-//    auto temp_child = newChild;
-//    for (int i = 0; i < 2 * K - 2; ++i) {
-//        auto currChild = this->_childArr[i];
-//        if (temp_child < currChild) { //once the place has been spotted, t
-//            Node *temp = currChild;
-//            this->_childArr[i] = temp_child;
-//            temp_child = temp;
-//        }
-//        this->_childArr[i] = currChild;
-//
-//    }
