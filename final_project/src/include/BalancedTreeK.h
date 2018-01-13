@@ -20,10 +20,13 @@ public:
 
     }
 
+    /** class D'tor:
+     * deletes the tree in O(n). recursive calls to node d'tors.
+     * since internal nodes < leaves(n), total calls to delete < 2n.
+     */
     virtual ~BalancedTreeK() {
-
+        if (_root) delete _root;
     }
-
     void Insert(const Key *nkey, const Value *nval);
 
     void Delete(const Key *dkey);

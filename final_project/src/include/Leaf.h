@@ -13,11 +13,19 @@ private:
     Value *_value;
 
 public:
+    Leaf(Node *parent, const Key *key, const Value *value) : Node(parent, key), _value(value->clone()) {}
+
+    virtual ~Leaf() {
+        delete _value;
+    }
+
     Value *get_value() const { return _value; };
 
     void set_value(Value *value) { _value = value->clone(); };
 
     const bool isLeaf() { return true; };
+
+    virtual void update_key() {};
 
 
 };
