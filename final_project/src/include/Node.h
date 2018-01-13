@@ -23,6 +23,7 @@ public:
     bool set_key(Key *key) { _key = key->clone(); };
 
     bool set_parent(Node *newParent);
+    void set_parent(Node *newParent);
 
     virtual const bool isLeaf()=0;
 

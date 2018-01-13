@@ -4,6 +4,7 @@
 #include "Node.h"
 
 bool Node::set_parent(Node *newParent) {
+void Node::set_parent(Node *newParent) {
 
 }
 
