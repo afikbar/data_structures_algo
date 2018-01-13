@@ -25,7 +25,7 @@ public:
 
     virtual ~InternalNode() {
         for (size_t i = 0; i < 2 * K - 1; ++i) {
-            if (_childArr[i]) delete _childArr[i]
+            if (_childArr[i]) delete _childArr[i];
         }
         delete[] _childArr;
     };
