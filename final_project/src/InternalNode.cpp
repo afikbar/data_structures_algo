@@ -5,7 +5,7 @@
 #include "InternalNode.h"
 
 void InternalNode::update_key() {
-    this->set_key(_child[_child_count]->get_key()); //rightmost child.key, assumes lower levels are intact.
+    this->set_key(_childArr[_child_count]->get_key()); //rightmost child.key, assumes lower levels are intact.
 }
 
 bool InternalNode::remove_child(Node *child) {
@@ -14,7 +14,7 @@ bool InternalNode::remove_child(Node *child) {
 
 void InternalNode::count_child() {
     int cnt = 0;
-    while (this->_child[cnt++] != NULL);
+    while (this->_childArr[cnt++] != NULL);
     _child_count = cnt;
 }
 
@@ -22,18 +22,18 @@ void InternalNode::count_child() {
 /**
  * gets new child array to replace to old one.
  * deletes the old one.
- * @param newChild
+ * @param childArr
  */
-void InternalNode::set_child(Node **newChild) {
-//    if (this._child[0]->get_key() == NULL){ //child init
-//        _child[0] = newChild;
+void InternalNode::set_childArr(Node **childArr) {
+//    if (this._childArr[0]->get_key() == NULL){ //child init
+//        _childArr[0] = newChild;
 //        return;
 //    }
-    for (int i = 0; i < 2 * K - 1 && newChild[i] != NULL; ++i) {
-        newChild[i]->set_parent(this);
+    for (int i = 0; i < 2 * K - 1 && childArr[i] != NULL; ++i) {
+        childArr[i]->set_parent(this);
     }
-    delete[] this->_child; //deletes the old
-    this->_child = newChild;
+    delete[] this->_childArr; //deletes the old
+    this->_childArr = childArr;
     this->count_child();
     this->update_key();
 }
@@ -41,8 +41,8 @@ void InternalNode::set_child(Node **newChild) {
 
 void InternalNode::set_child(Node *newChild) {
     newChild->set_parent(this);
-    if (this->_child[0] == NULL) { //init, first one is min Sentinel
-        this->_child[0] = newChild;
+    if (this->_childArr[0] == NULL) { //init, first one is min Sentinel
+        this->_childArr[0] = newChild;
         this->count_child();
         this->update_key();
         return;
@@ -51,10 +51,10 @@ void InternalNode::set_child(Node *newChild) {
     //find node places
     auto temp_child = newChild;
     for (int i = 1; i < 2 * K - 1; ++i) { // assuming node is larger than minSentinel
-        auto currChild = this->_child[i]; // this doesnt handle case if no room for the child?
+        auto currChild = this->_childArr[i]; // this doesnt handle case if no room for the child?
         if (temp_child < currChild) {
             Node *temp = currChild;
-            this->_child[i] = temp_child;
+            this->_childArr[i] = temp_child;
             temp_child = temp;
         }
     }
@@ -62,12 +62,44 @@ void InternalNode::set_child(Node *newChild) {
 }
 
 Node *InternalNode::insert_split(Node *newNode) {
-    if (this->_child_count <= 2 * K - 1) { //handles case where there is room for newNode.
-        this->add_child(newNode);
+    Node **x_childArr = new Node *[2 * K - 1];
+    int zOrderStats = this->find_orderStats(newNode); //finds the place of newNode
+    if (this->_child_count < 2 * K - 1) { //handles case where there is room for newNode.
+//        this->add_child(newNode);
+        for (int i = 0, j = 0; j < 2 * K - 1 && i < 2 * K - 1; ++i, ++j) {
+            if (i == zOrderStats) {
+                x_childArr[i] = newNode;
+                i++;
+            }
+            x_childArr[i] = this->_childArr[j];
+        }
+        this->set_childArr(x_childArr);
         return NULL;
     }
-    Node * y = new InternalNode();
-    
+    Node *y = new InternalNode();
+    Node **y_childArr = new Node *[2 * K - 1];
+
+    int i, j = 0;
+    for (i,j; j < K && i < K; ++i, ++j) {
+        if (zOrderStats < K) {
+            if (i == zOrderStats) {
+                x_childArr[i] = newNode;
+                i++;
+            }
+            x_childArr[i] = this->_childArr[j];
+            y_childArr[j] = this->_childArr[K + j - 1];
+
+        } else {
+            if (j == zOrderStats - K) {
+                y_childArr[j] = newNode;
+                j++;
+            }
+            x_childArr[i] = this->_childArr[i];
+            y_childArr[j] = this->_childArr[K + i - 1];
+        }
+    }
+    for (i;i<K;++i)x_childArr[i] = this->_childArr[i]; //completes left-overs
+    for (j;j < K;++j)y_childArr[j] = this->_childArr[K + j - 1];
 
     return y;
 }
@@ -75,13 +107,15 @@ Node *InternalNode::insert_split(Node *newNode) {
 void InternalNode::add_child(Node *newChild) {
     newChild->set_parent(this);
     auto temp_child = newChild;
-    for (int i = 1; i < 2 * K - 1 && this->_child[i-1] != NULL; ++i) { //assuming newChild larger than minSentinel.
-        auto currChild = this->_child[i];
+    auto currChild = this->_childArr[0];
+    for (int i = 1; i < 2 * K - 1 && this->_childArr[i - 1] != NULL; ++i) { //assuming newChild larger than minSentinel.
+
         if (temp_child < currChild) {
             Node *temp = currChild;
-            this->_child[i] = temp_child;
+            this->_childArr[i - 1] = temp_child;
             temp_child = temp;
         }
+        auto currChild = this->_childArr[i];
     }
 
 }
@@ -106,12 +140,12 @@ int InternalNode::find_orderStats(Node *newChild) {
 
 //    auto temp_child = newChild;
 //    for (int i = 0; i < 2 * K - 2; ++i) {
-//        auto currChild = this->_child[i];
+//        auto currChild = this->_childArr[i];
 //        if (temp_child < currChild) { //once the place has been spotted, t
 //            Node *temp = currChild;
-//            this->_child[i] = temp_child;
+//            this->_childArr[i] = temp_child;
 //            temp_child = temp;
 //        }
-//        this->_child[i] = currChild;
+//        this->_childArr[i] = currChild;
 //
 //    }
