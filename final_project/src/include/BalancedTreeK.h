@@ -26,13 +26,13 @@ public:
     BalancedTreeK(const Key *min, const Key *max) {
 
         InternalNode *root = new InternalNode(NULL);
-        Node **newChild = new Node *[2 * K - 1];
+        Node **childArr = new Node *[2 * K - 1];
         Leaf *minNode = new Leaf(root, min, NULL);
         Leaf *maxNode = new Leaf(root, max, NULL);
 
-        newChild[0] = minNode;
-        newChild[1] = maxNode;
-        root->set_child(newChild); // O(1)
+        childArr[0] = minNode;
+        childArr[1] = maxNode;
+        root->set_childArr(childArr); // O(1)
         _root = root;
     }
     /** class D'tor:

@@ -10,24 +10,24 @@
 class InternalNode : public Node {
 
 private:
-    Node **_child;
+    Node **_childArr;
     int _child_count;
 
 public:
     InternalNode() {};
 
     InternalNode(Node *parent, const Key *key = NULL) : Node(parent, key),
-                                                        _child(new Node *[2 * K - 1]) { // _child is null pointers array
+                                                        _childArr(new Node *[2 * K - 1]) { // _childArr is null pointers array
         /*for (int i = 0; i < 2 * K - 1; ++i) {
-            _child[i]->set_parent(this);
+            _childArr[i]->set_parent(this);
         }*/
     };
 
     virtual ~InternalNode() {
         for (size_t i = 0; i < 2 * K - 1; ++i) {
-            if (_child[i]) delete _child[i]
+            if (_childArr[i]) delete _childArr[i]
         }
-        delete[] _child;
+        delete[] _childArr;
     };
 
     virtual void update_key();
@@ -38,7 +38,7 @@ public:
 
     virtual Node *insert_split(Node *newNode);
 
-    void set_child(Node **newChild);
+    void set_childArr(Node **childArr);
 
     void set_child(Node *newChild);
 
