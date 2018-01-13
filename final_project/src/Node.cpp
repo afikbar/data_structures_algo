@@ -3,7 +3,6 @@
 //
 #include "Node.h"
 
-bool Node::set_parent(Node *newParent) {
 void Node::set_parent(Node *newParent) {
 
 }
@@ -22,9 +21,12 @@ bool Node::operator==(const Node &rhs) const {
 }
 
 bool Node::operator<=(const Node &rhs) const {
-    return !(rhs < *this);
+    return !(*this > rhs);
 }
 
 bool Node::operator>=(const Node &rhs) const {
     return !(*this < rhs);
 }
+
+
+

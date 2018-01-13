@@ -20,9 +20,8 @@ public:
 
     Node *get_parent() const { return _parent; };
 
-    bool set_key(Key *key) { _key = key->clone(); };
+    void set_key(const Key *key) { _key = key->clone(); };
 
-    bool set_parent(Node *newParent);
     void set_parent(Node *newParent);
 
     virtual const bool isLeaf()=0;
