@@ -6,12 +6,21 @@
 
 
 void BalancedTreeK::Insert(const Key *nkey, const Value *nval) {
+
+    Node *z = new Leaf(NULL, nkey, nval); //temp node creation
     Node *y = this->_root;
-    Node *z = new Leaf(NULL, nkey, nval);
-
     while (!y->isLeaf()) {
-
+        unsigned int childCnt = y->get_childCnt();
+        for (int i = 0; i < childCnt; ++i) {
+            if (z < y->get_childX(i)) {
+                y = y->get_childX(i);
+                break;
+            }
+        }
+        y = y->get_childX(childCnt - 1); //rightmost child
     }
+    Node * x = y->get_parent();
+    z = x->insert_split(z);
 }
 
 void BalancedTreeK::Delete(const Key *dkey) {
