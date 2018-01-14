@@ -12,14 +12,14 @@ class InternalNode : public Node {
 
 private:
     Node **_childArr;
-    int _child_count;
+    unsigned _childCnt; //amount of children including sentinels
 
 
 public:
     InternalNode() {};
 
     InternalNode(Node *parent, const Key *key = NULL) : Node(parent, key), _childArr(new Node *[2 * K - 1]) {};
-        // _childArr is null pointers array
+    // _childArr is null pointers array
 
     virtual ~InternalNode() {
         for (size_t i = 0; i < 2 * K - 1; ++i) {
@@ -32,6 +32,10 @@ public:
 
     virtual void update_size();
 
+    virtual unsigned get_childCnt() const {
+        return _childCnt;
+    }
+
     void update_childCnt();
 
     virtual unsigned int find_orderStats(Node *newChild);
@@ -40,7 +44,7 @@ public:
 
     virtual Node *insert_split(Node *newNode);
 
-    Node *get_childX(int x) const { return _childArr[x]; }
+    Node *get_childX(int x) const;
 
     void set_childArr(Node **childArr);
 

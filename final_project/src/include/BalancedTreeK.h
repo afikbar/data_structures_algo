@@ -36,6 +36,7 @@ public:
         root->set_childArr(childArr); // O(1)
         _root = root;
     }
+
     /** class D'tor:
      * deletes the tree in O(n). recursive calls to node d'tors.
      * since internal nodes < leaves(n), total calls to delete < 2n.
@@ -43,6 +44,7 @@ public:
     virtual ~BalancedTreeK() {
         if (_root) delete _root;
     }
+
     /** Insert:
      * inserts a new leaf while copies given key and val.
      * required O(logn)

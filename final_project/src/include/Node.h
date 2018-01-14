@@ -30,6 +30,8 @@ public:
 
     virtual Node *get_childX(int x) const {}
 
+    virtual unsigned get_childCnt() const {}
+
     void set_key(const Key *key) { _key = key->clone(); }
 
     void set_size(const int size) { _size = size; }
@@ -48,6 +50,8 @@ public:
 
     virtual Leaf *search_node(const Key *key)=0;
 
+    Node *select_rec(unsigned index);
+
     bool operator==(const Node &rhs) const;
 
     bool operator<(const Node &rhs) const;
@@ -61,7 +65,7 @@ public:
 private:
     Key *_key;
     Node *_parent;
-    unsigned int _size; //number of leaves in subtree
+    unsigned int _size; //number of leaves in subtree without sentinels
 
 };
 

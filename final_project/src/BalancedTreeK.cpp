@@ -40,7 +40,9 @@ unsigned BalancedTreeK::Rank(const Key *key) const {
 }
 
 const Key *BalancedTreeK::Select(unsigned index) const {
-    return NULL;
+    Node *selected = this->_root->select_rec(index);
+    if (selected == NULL) return NULL;
+    return selected->get_key();
 }
 
 const Value *BalancedTreeK::GetMaxValue(const Key *key1, const Key *key2) const {

@@ -6,7 +6,7 @@
 #include "InternalNode.h"
 
 void InternalNode::update_key() {
-    this->set_key(_childArr[_child_count]->get_key()); //rightmost child.key, assumes lower levels are intact.
+    this->set_key(_childArr[_childCnt]->get_key()); //rightmost child.key, assumes lower levels are intact.
 }
 
 bool InternalNode::remove_child(Node *child) {
@@ -16,7 +16,7 @@ bool InternalNode::remove_child(Node *child) {
 void InternalNode::update_childCnt() {
     int cnt = 0;
     while (this->_childArr[cnt++] != NULL);
-    _child_count = cnt;
+    _childCnt = cnt;
 }
 
 
@@ -66,9 +66,9 @@ void InternalNode::add_child(Node *newChild) {
 Node *InternalNode::insert_split(Node *newNode) {
     Node **x_childArr = new Node *[2 * K - 1];
     int zOrderStats = this->find_orderStats(newNode); //finds the place of newNode
-    if (this->_child_count < 2 * K - 1) { //handles case where there is room for newNode.
+    if (this->_childCnt < 2 * K - 1) { //handles case where there is room for newNode.
 //        this->add_child(newNode);
-        for (int i = 0, j = 0; j < _child_count && i < _child_count; ++i, ++j) {
+        for (int i = 0, j = 0; j < _childCnt && i < _childCnt; ++i, ++j) {
             if (i == zOrderStats) {
                 x_childArr[i] = newNode;
                 i++;
@@ -116,7 +116,7 @@ Node *InternalNode::insert_split(Node *newNode) {
  * @return
  */
 unsigned int InternalNode::find_orderStats(Node *newChild) {
-    int left = 0, right = this->_child_count;
+    int left = 0, right = this->_childCnt;
     while (left <= right) { //binary search
         int middle = (left + right) / 2;
         if (_childArr[middle] == newChild) return middle;
@@ -129,7 +129,7 @@ unsigned int InternalNode::find_orderStats(Node *newChild) {
 }
 
 Leaf *InternalNode::search_node(const Key *key) {
-    for (int i = 0; i < this->_child_count; ++i) {
+    for (int i = 0; i < this->_childCnt; ++i) {
         Node *currChild = this->_childArr[i];
         if (!(currChild->get_key() < key)) return currChild->search_node(key); // !< is >=
     }
@@ -138,7 +138,12 @@ Leaf *InternalNode::search_node(const Key *key) {
 
 void InternalNode::update_size() {
     unsigned int size = 0;
-    for (int i = 0; i < _child_count; ++i)
+    for (int i = 0; i < _childCnt; ++i)
         size += _childArr[i]->get_size();
     this->set_size(size);
+}
+
+Node *InternalNode::get_childX(int x) const {
+    if (x < _childCnt)
+        return _childArr[x];
 }
