@@ -18,12 +18,8 @@ private:
 public:
     InternalNode() {};
 
-    InternalNode(Node *parent, const Key *key = NULL) : Node(parent, key),
-                                                        _childArr(new Node *[2 * K - 1]) { // _childArr is null pointers array
-        /*for (int i = 0; i < 2 * K - 1; ++i) {
-            _childArr[i]->set_parent(this);
-        }*/
-    };
+    InternalNode(Node *parent, const Key *key = NULL) : Node(parent, key), _childArr(new Node *[2 * K - 1]) {};
+        // _childArr is null pointers array
 
     virtual ~InternalNode() {
         for (size_t i = 0; i < 2 * K - 1; ++i) {
@@ -38,17 +34,19 @@ public:
 
     void update_childCnt();
 
-    int find_orderStats(Node *newChild);
+    virtual unsigned int find_orderStats(Node *newChild);
 
-    void add_child(Node* newChild);
+    void add_child(Node *newChild);
 
     virtual Node *insert_split(Node *newNode);
+
+    Node *get_childX(int x) const { return _childArr[x]; }
 
     void set_childArr(Node **childArr);
 
     const bool isLeaf() { return false; };
 
-    virtual Leaf * search_node(const Key *key);
+    virtual Leaf *search_node(const Key *key);
 
     bool remove_child(Node *child);
 

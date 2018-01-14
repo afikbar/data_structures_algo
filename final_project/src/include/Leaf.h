@@ -25,7 +25,7 @@ public:
         delete _value;
     }
 
-    Value *get_value() const { return _value; };
+    Value *get_value() const { return _value; }
 
     bool is_isSentinel() const { return _isSentinel; }
 

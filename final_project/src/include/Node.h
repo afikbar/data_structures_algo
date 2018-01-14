@@ -26,7 +26,9 @@ public:
 
     Node *get_parent() const { return _parent; }
 
-    int get_size() const { return _size; }
+    unsigned int get_size() const { return _size; }
+
+    virtual Node *get_childX(int x) const {}
 
     void set_key(const Key *key) { _key = key->clone(); }
 
@@ -40,7 +42,9 @@ public:
 
     virtual void update_key()=0;
 
-    virtual Node *insert_split(Node *newNode)=0;
+    virtual unsigned int find_orderStats(Node *newChild) {};
+
+    virtual Node *insert_split(Node *newNode) {};
 
     virtual Leaf *search_node(const Key *key)=0;
 
@@ -57,7 +61,7 @@ public:
 private:
     Key *_key;
     Node *_parent;
-    int _size; //number of leaves in subtree
+    unsigned int _size; //number of leaves in subtree
 
 };
 

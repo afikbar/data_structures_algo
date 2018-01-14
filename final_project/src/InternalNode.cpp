@@ -110,12 +110,12 @@ Node *InternalNode::insert_split(Node *newNode) {
 }
 
 /**
- * searchs for the order statisitc of a node in the childArr,
+ * searchs for the order statisitc of a node in the childArr, Zero-Based!
  * if exist, returns it, if not, returns the position of the minimum key that is larger.
  * @param newChild
  * @return
  */
-int InternalNode::find_orderStats(Node *newChild) {
+unsigned int InternalNode::find_orderStats(Node *newChild) {
     int left = 0, right = this->_child_count;
     while (left <= right) { //binary search
         int middle = (left + right) / 2;
@@ -137,7 +137,7 @@ Leaf *InternalNode::search_node(const Key *key) {
 }
 
 void InternalNode::update_size() {
-    int size = 0;
+    unsigned int size = 0;
     for (int i = 0; i < _child_count; ++i)
         size += _childArr[i]->get_size();
     this->set_size(size);
