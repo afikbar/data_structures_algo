@@ -24,7 +24,19 @@ Value *BalancedTreeK::Search(const Key *key) const {
 }
 
 unsigned BalancedTreeK::Rank(const Key *key) const {
-    return 0;
+    int rank = 1;
+    Node *x = this->_root->search_node(key);
+    if (x == NULL) return 0;
+    Node *y = x->get_parent();
+    while (y != NULL) {
+        int xOrderStats = y->find_orderStats(x);
+        for (int i = 0; i < xOrderStats; ++i) {
+            rank += y->get_childX(i)->get_size();
+        }
+        x = y;
+        y = y->get_parent();
+    }
+    return rank;
 }
 
 const Key *BalancedTreeK::Select(unsigned index) const {
