@@ -5,9 +5,13 @@
 #include "include/BalancedTreeK.h"
 
 
-
 void BalancedTreeK::Insert(const Key *nkey, const Value *nval) {
+    Node *y = this->_root;
+    Node *z = new Leaf(NULL, nkey, nval);
 
+    while (!y->isLeaf()){
+
+    }
 }
 
 void BalancedTreeK::Delete(const Key *dkey) {
