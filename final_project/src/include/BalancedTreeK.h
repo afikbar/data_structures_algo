@@ -29,7 +29,8 @@ public:
         Node **childArr = new Node *[2 * K - 1];
         Leaf *minNode = new Leaf(root, min, NULL);
         Leaf *maxNode = new Leaf(root, max, NULL);
-
+        minNode->set_isSentinel(true);
+        maxNode->set_isSentinel(true);
         childArr[0] = minNode;
         childArr[1] = maxNode;
         root->set_childArr(childArr); // O(1)

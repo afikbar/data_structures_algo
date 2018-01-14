@@ -11,6 +11,7 @@ class Leaf : public Node {
 
 private:
     Value *_value;
+    bool _isSentinel = false;
 
 public:
     Leaf(Node *parent, const Key *key, const Value *value) : Node(parent, key), _value(value->clone()) {}
@@ -21,13 +22,17 @@ public:
 
     Value *get_value() const { return _value; };
 
-    void set_value(Value *value) { _value = value->clone(); };
+    bool is_isSentinel() const { return _isSentinel; }
 
-    const bool isLeaf() { return true; };
+    void set_isSentinel(bool isSentinel) { _isSentinel = isSentinel; }
 
-    virtual void update_key() {};
+    void set_value(Value *value) { _value = value->clone(); }
 
-    virtual Leaf * search_node(const Key *key) {
+    const bool isLeaf() { return true; }
+
+    virtual void update_key() {}
+
+    virtual Leaf *search_node(const Key *key) {
         if (this->get_key() == key) return this;
         return NULL;
     }
