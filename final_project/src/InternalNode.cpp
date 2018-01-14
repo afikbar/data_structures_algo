@@ -13,7 +13,7 @@ bool InternalNode::remove_child(Node *child) {
 
 }
 
-void InternalNode::count_child() {
+void InternalNode::update_childCnt() {
     int cnt = 0;
     while (this->_childArr[cnt++] != NULL);
     _child_count = cnt;
@@ -35,8 +35,9 @@ void InternalNode::set_childArr(Node **childArr) {
     }
     delete[] this->_childArr; //deletes the old
     this->_childArr = childArr;
-    this->count_child();
+    this->update_childCnt();
     this->update_key();
+    this->update_size();
 }
 
 
@@ -44,7 +45,7 @@ void InternalNode::add_child(Node *newChild) {
     newChild->set_parent(this);
     if (this->_childArr[0] == NULL) { //init, first one is min Sentinel
         this->_childArr[0] = newChild;
-        this->count_child();
+        this->update_childCnt();
         this->update_key();
         return;
     }
@@ -121,10 +122,17 @@ int InternalNode::find_orderStats(Node *newChild) {
     return left; //upper bound in end of search
 }
 
-Leaf * InternalNode::search_node(const Key *key) {
+Leaf *InternalNode::search_node(const Key *key) {
     for (int i = 0; i < this->_child_count; ++i) {
         Node *currChild = this->_childArr[i];
         if (!(currChild->get_key() < key)) return currChild->search_node(key); // !< is >=
     }
     return NULL;
+}
+
+void InternalNode::update_size() {
+    int size = 0;
+    for (int i = 0; i < _child_count; ++i)
+        size += _childArr[i]->get_size();
+    this->set_size(size);
 }

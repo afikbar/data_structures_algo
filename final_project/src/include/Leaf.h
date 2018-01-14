@@ -16,6 +16,11 @@ private:
 public:
     Leaf(Node *parent, const Key *key, const Value *value) : Node(parent, key), _value(value->clone()) {}
 
+    virtual void update_size() {
+        if (!this->_isSentinel) this->set_size(1);
+        else this->set_size(0);
+    }
+
     virtual ~Leaf() {
         delete _value;
     }

@@ -34,7 +34,9 @@ public:
 
     virtual void update_key();
 
-    void count_child();
+    virtual void update_size();
+
+    void update_childCnt();
 
     int find_orderStats(Node *newChild);
 

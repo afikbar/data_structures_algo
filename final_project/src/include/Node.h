@@ -22,13 +22,19 @@ public:
         delete _key;
     };
 
-    Key *get_key() const { return _key; };
+    Key *get_key() const { return _key; }
 
-    Node *get_parent() const { return _parent; };
+    Node *get_parent() const { return _parent; }
 
-    void set_key(const Key *key) { _key = key->clone(); };
+    int get_size() const { return _size; }
+
+    void set_key(const Key *key) { _key = key->clone(); }
+
+    void set_size(const int size) { _size = size; }
 
     void set_parent(Node *newParent);
+
+    virtual void update_size()=0;
 
     virtual const bool isLeaf()=0;
 
@@ -36,7 +42,7 @@ public:
 
     virtual Node *insert_split(Node *newNode)=0;
 
-    virtual Leaf * search_node(const Key *key)=0;
+    virtual Leaf *search_node(const Key *key)=0;
 
     bool operator==(const Node &rhs) const;
 
@@ -51,6 +57,7 @@ public:
 private:
     Key *_key;
     Node *_parent;
+    int _size; //number of leaves in subtree
 
 };
 
