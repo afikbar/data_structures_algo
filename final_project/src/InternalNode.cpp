@@ -2,6 +2,7 @@
 // Created by Afik on 12/01/2018.
 //
 
+#include <Leaf.h>
 #include "InternalNode.h"
 
 void InternalNode::update_key() {
@@ -118,4 +119,12 @@ int InternalNode::find_orderStats(Node *newChild) {
             left = middle + 1;
     }
     return left; //upper bound in end of search
+}
+
+Leaf * InternalNode::search_node(const Key *key) {
+    for (int i = 0; i < this->_child_count; ++i) {
+        Node *currChild = this->_childArr[i];
+        if (!(currChild->get_key() < key)) return currChild->search_node(key); // !< is >=
+    }
+    return NULL;
 }

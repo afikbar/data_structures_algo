@@ -27,7 +27,10 @@ public:
 
     virtual void update_key() {};
 
-
+    virtual Leaf * search_node(const Key *key) {
+        if (this->get_key() == key) return this;
+        return NULL;
+    }
 };
 
 #endif //SRC_LEAF_H

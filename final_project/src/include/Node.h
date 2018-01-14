@@ -8,6 +8,7 @@
 #include "Value.h"
 #include "Key.h"
 #include "ParameterK.h"
+#include "Leaf.h"
 #include <cstddef>
 
 class Node {
@@ -34,6 +35,8 @@ public:
     virtual void update_key()=0;
 
     virtual Node *insert_split(Node *newNode)=0;
+
+    virtual Leaf * search_node(const Key *key)=0;
 
     bool operator==(const Node &rhs) const;
 

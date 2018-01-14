@@ -6,6 +6,7 @@
 #define SRC_INTERNALNODE_H
 
 #include "Node.h"
+#include "Leaf.h"
 
 class InternalNode : public Node {
 
@@ -44,6 +45,8 @@ public:
     void set_childArr(Node **childArr);
 
     const bool isLeaf() { return false; };
+
+    virtual Leaf * search_node(const Key *key);
 
     bool remove_child(Node *child);
 
