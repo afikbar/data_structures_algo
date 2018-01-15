@@ -6,7 +6,6 @@
 #define SRC_INTERNALNODE_H
 
 #include "Node.h"
-#include "Leaf.h"
 
 class InternalNode : public Node {
 
@@ -17,8 +16,11 @@ private:
 
 public:
     InternalNode() {};
+    //TODO: internalNode c'tor init key and parent to null!
 
-    InternalNode(Node *parent, const Key *key = NULL) : Node(parent, key), _childArr(new Node *[2 * K - 1]) {};
+    InternalNode(Node *parent, const Key *key = NULL) : Node(parent, key),
+                                                        _childArr(new Node *[2 * K - 1]()),
+                                                        _childCnt(0) {};
     // _childArr is null pointers array
 
     virtual ~InternalNode() {
@@ -50,7 +52,7 @@ public:
 
     const bool isLeaf() { return false; };
 
-    virtual Leaf *search_node(const Key *key);
+    virtual Node *search_node(const Key *key);
 
     bool remove_child(Node *child);
 

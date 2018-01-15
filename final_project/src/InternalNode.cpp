@@ -6,7 +6,7 @@
 #include "InternalNode.h"
 
 void InternalNode::update_key() {
-    this->set_key(_childArr[_childCnt]->get_key()); //rightmost child.key, assumes lower levels are intact.
+    this->set_key(_childArr[_childCnt - 1]->get_key()); //rightmost child.key, assumes lower levels are intact.
 }
 
 bool InternalNode::remove_child(Node *child) {
@@ -15,7 +15,7 @@ bool InternalNode::remove_child(Node *child) {
 
 void InternalNode::update_childCnt() {
     int cnt = 0;
-    while (this->_childArr[cnt++] != NULL);
+    while (this->_childArr[++cnt] != NULL && cnt < 2 * K - 1);
     _childCnt = cnt;
 }
 
@@ -51,9 +51,9 @@ void InternalNode::add_child(Node *newChild) {
     }
 
     //find node places - to be fixed using orderStats and maybe implement new method to shift array.
-    auto temp_child = newChild;
+    Node *temp_child = newChild;
     for (int i = 1; i < 2 * K - 1; ++i) { // assuming node is larger than minSentinel
-        auto currChild = this->_childArr[i]; // this doesnt handle case if no room for the child?
+        Node *currChild = this->_childArr[i]; // this doesnt handle case if no room for the child?
         if (temp_child < currChild) {
             Node *temp = currChild;
             this->_childArr[i] = temp_child;
@@ -64,7 +64,7 @@ void InternalNode::add_child(Node *newChild) {
 }
 
 Node *InternalNode::insert_split(Node *newNode) {
-    Node **x_childArr = new Node *[2 * K - 1];
+    Node **x_childArr = new Node *[2 * K - 1]();
     int zOrderStats = this->find_orderStats(newNode); //finds the place of newNode
     if (this->_childCnt < 2 * K - 1) { //handles case where there is room for newNode.
 //        this->add_child(newNode);
@@ -79,7 +79,7 @@ Node *InternalNode::insert_split(Node *newNode) {
         return NULL;
     }
     InternalNode *y = new InternalNode();
-    Node **y_childArr = new Node *[2 * K - 1];
+    Node **y_childArr = new Node *[2 * K - 1]();
 
     int i, j = 0;
     for (i, j; j < K && i < K; ++i, ++j) {
@@ -128,7 +128,7 @@ unsigned int InternalNode::find_orderStats(Node *newChild) {
     return left; //upper bound in end of search
 }
 
-Leaf *InternalNode::search_node(const Key *key) {
+Node *InternalNode::search_node(const Key *key) {
     for (int i = 0; i < this->_childCnt; ++i) {
         Node *currChild = this->_childArr[i];
         if (!(currChild->get_key() < key)) return currChild->search_node(key); // !< is >=

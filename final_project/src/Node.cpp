@@ -3,10 +3,6 @@
 //
 #include "Node.h"
 
-void Node::set_parent(Node *newParent) {
-
-}
-
 
 bool Node::operator<(const Node &rhs) const {
     return this->_key < rhs._key;

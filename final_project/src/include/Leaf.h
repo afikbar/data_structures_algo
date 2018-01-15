@@ -11,33 +11,33 @@ class Leaf : public Node {
 
 private:
     Value *_value;
-    bool _isSentinel = false;
+    bool _isSentinel;
 
 public:
-    Leaf(Node *parent, const Key *key, const Value *value) : Node(parent, key), _value(value->clone()) {}
+    Leaf(Node *parent, const Key *key, const Value *value) : Node(parent, key),
+                                                             _isSentinel(false),
+                                                             _value(value->clone()) {
+//        set_value(value);
+    }
 
     virtual void update_size() {
         if (!this->_isSentinel) this->set_size(1);
         else this->set_size(0);
     }
 
-    virtual ~Leaf() {
-        delete _value;
-    }
-
-    Value *get_value() const { return _value; }
+    virtual Value *get_value() const { return _value; }
 
     bool is_isSentinel() const { return _isSentinel; }
 
     void set_isSentinel(bool isSentinel) { _isSentinel = isSentinel; }
 
-    void set_value(Value *value) { _value = value->clone(); }
+    void set_value(const Value *value) { _value = value != NULL ? value->clone() : NULL; }
 
     const bool isLeaf() { return true; }
 
     virtual void update_key() {}
 
-    virtual Leaf *search_node(const Key *key) {
+    virtual Node *search_node(const Key *key) {
         if (this->get_key() == key) return this;
         return NULL;
     }

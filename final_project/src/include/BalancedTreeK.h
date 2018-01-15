@@ -14,7 +14,7 @@
 class BalancedTreeK {
 
 private:
-    Node *_root;
+    InternalNode *_root;
 
 
 public:
@@ -25,8 +25,8 @@ public:
      */
     BalancedTreeK(const Key *min, const Key *max) {
 
-        InternalNode *root = new InternalNode(NULL);
-        Node **childArr = new Node *[2 * K - 1];
+        InternalNode *root = new InternalNode(NULL, max);
+        Node **childArr = new Node *[2 * K - 1]();
         Leaf *minNode = new Leaf(root, min, NULL);
         Leaf *maxNode = new Leaf(root, max, NULL);
         minNode->set_isSentinel(true);

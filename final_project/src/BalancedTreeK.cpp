@@ -28,8 +28,8 @@ void BalancedTreeK::Delete(const Key *dkey) {
 }
 
 Value *BalancedTreeK::Search(const Key *key) const {
-    Leaf *isNode = this->_root->search_node(key);
-    return isNode == NULL ? isNode->get_value() : NULL;
+    Node *isNode = this->_root->search_node(key);
+    return isNode != NULL ? isNode->get_value() : NULL;
 }
 
 unsigned BalancedTreeK::Rank(const Key *key) const {

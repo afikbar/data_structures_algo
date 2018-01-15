@@ -8,7 +8,6 @@
 #include "Value.h"
 #include "Key.h"
 #include "ParameterK.h"
-#include "Leaf.h"
 #include <cstddef>
 
 class Node {
@@ -16,15 +15,15 @@ class Node {
 public:
     Node() : _parent(NULL), _key(NULL) {};
 
-    Node(Node *parent, const Key *key) : _parent(parent), _key(key->clone()) {};
-
-    virtual ~Node() {
-        delete _key;
+    Node(Node *parent, const Key *key) : _parent(parent) {
+        set_key(key);
     };
 
     Key *get_key() const { return _key; }
 
     Node *get_parent() const { return _parent; }
+
+    virtual Value *get_value() const {}
 
     unsigned int get_size() const { return _size; }
 
@@ -32,11 +31,11 @@ public:
 
     virtual unsigned get_childCnt() const {}
 
-    void set_key(const Key *key) { _key = key->clone(); }
+    void set_key(const Key *key) { _key = key != NULL ? key->clone() : NULL; }
 
     void set_size(const int size) { _size = size; }
 
-    void set_parent(Node *newParent);
+    void set_parent(Node *newParent) { _parent = newParent; }
 
     virtual void update_size()=0;
 
@@ -48,7 +47,7 @@ public:
 
     virtual Node *insert_split(Node *newNode) {};
 
-    virtual Leaf *search_node(const Key *key)=0;
+    virtual Node *search_node(const Key *key)=0;
 
     Node *select_rec(unsigned index);
 
