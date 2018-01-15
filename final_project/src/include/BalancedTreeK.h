@@ -27,8 +27,8 @@ public:
 
         InternalNode *root = new InternalNode(NULL, max);
         Node **childArr = new Node *[2 * K - 1]();
-        Leaf *minNode = new Leaf(root, min, NULL);
-        Leaf *maxNode = new Leaf(root, max, NULL);
+        Leaf *minNode = new Leaf(root, min);
+        Leaf *maxNode = new Leaf(root, max);
         minNode->set_isSentinel(true);
         maxNode->set_isSentinel(true);
         childArr[0] = minNode;
