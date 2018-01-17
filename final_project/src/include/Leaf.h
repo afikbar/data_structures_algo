@@ -38,6 +38,10 @@ public:
 
     void set_value(const Value *value) { _value = value != NULL ? value->clone() : NULL; }
 
+    virtual Node *get_childX(int x) const {
+        return NULL;
+    }
+
     const bool isLeaf() { return true; }
 
     virtual void update_key() {}
@@ -46,6 +50,7 @@ public:
         if (this->get_key() == key) return this;
         return NULL;
     }
+
 };
 
 #endif //SRC_LEAF_H
