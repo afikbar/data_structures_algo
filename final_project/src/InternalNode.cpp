@@ -150,4 +150,6 @@ void InternalNode::update_size() {
 Node *InternalNode::get_childX(int x) const {
     if (x < _childCnt)
         return _childArr[x];
+    std::cout << "Cant access child\n";
+    return NULL;
 }
