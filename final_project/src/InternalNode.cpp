@@ -14,7 +14,7 @@ bool InternalNode::remove_child(Node *child) {
 }
 
 void InternalNode::update_childCnt() {
-    int cnt = 0;
+    unsigned cnt = 0;
     while (this->_childArr[++cnt] != NULL && cnt < 2 * K - 1);
     _childCnt = cnt;
 }
@@ -47,6 +47,7 @@ void InternalNode::add_child(Node *newChild) {
         this->_childArr[0] = newChild;
         this->update_childCnt();
         this->update_key();
+        this->update_size();
         return;
     }
 
@@ -60,12 +61,15 @@ void InternalNode::add_child(Node *newChild) {
             temp_child = temp;
         }
     }
+    this->update_childCnt();
+    this->update_key();
+    this->update_size();
 
 }
 
 Node *InternalNode::insert_split(Node *newNode) {
     Node **x_childArr = new Node *[2 * K - 1]();
-    int zOrderStats = this->find_orderStats(newNode); //finds the place of newNode
+    int zOrderStats = this->find_orderStats(newNode); //finds the place of newNode - zero based
     if (this->_childCnt < 2 * K - 1) { //handles case where there is room for newNode.
 //        this->add_child(newNode);
         for (int i = 0, j = 0; j < _childCnt && i < _childCnt; ++i, ++j) {
