@@ -115,16 +115,16 @@ Node *InternalNode::insert_split(Node *newNode) {
 
 /**
  * searchs for the order statisitc of a node in the childArr, Zero-Based!
- * if exist, returns it, if not, returns the position of the minimum key that is larger.
+ * if exist, returns it, if not, returns the index of the minimum key that is larger.
  * @param newChild
  * @return
  */
 unsigned int InternalNode::find_orderStats(Node *newChild) {
-    int left = 0, right = this->_childCnt;
+    int left = 0, right = this->_childCnt - 1;
     while (left <= right) { //binary search
         int middle = (left + right) / 2;
-        if (_childArr[middle] == newChild) return middle;
-        if (_childArr[middle] > newChild)
+        if (*_childArr[middle] == *newChild) return middle;
+        if (*_childArr[middle] > *newChild)
             right = middle - 1;
         else
             left = middle + 1;
