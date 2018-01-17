@@ -14,11 +14,14 @@ private:
     bool _isSentinel;
 
 public:
-    Leaf(Node *parent, const Key *key) : Node(parent, key),_value(NULL) {}//Sentinel c'tor (no Value)
+    Leaf(Node *parent, const Key *key) : Node(parent, key),_value(NULL),_isSentinel(true){
+        this->update_size();
+    }//Sentinel c'tor (no Value)
 
     Leaf(Node *parent, const Key *key, const Value *value) : Node(parent, key),
                                                              _isSentinel(false),
                                                              _value(value->clone()) {
+        this->update_size();
 //        set_value(value);
     }
 
