@@ -55,7 +55,7 @@ void InternalNode::add_child(Node *newChild) {
     Node *temp_child = newChild;
     for (int i = 1; i < 2 * K - 1; ++i) { // assuming node is larger than minSentinel
         Node *currChild = this->_childArr[i]; // this doesnt handle case if no room for the child?
-        if (temp_child < currChild) {
+        if (*temp_child < *currChild) {
             Node *temp = currChild;
             this->_childArr[i] = temp_child;
             temp_child = temp;
