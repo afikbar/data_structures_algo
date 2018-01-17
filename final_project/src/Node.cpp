@@ -5,11 +5,11 @@
 
 
 bool Node::operator<(const Node &rhs) const {
-    return this->_key < rhs._key;
+    return *(this->_key) < *(rhs._key);
 }
 
 bool Node::operator>(const Node &rhs) const {
-    return rhs._key < this->_key;
+    return *(rhs._key) < *(this->_key);
 }
 
 bool Node::operator==(const Node &rhs) const {
