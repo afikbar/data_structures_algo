@@ -24,13 +24,10 @@ public:
      * @param max
      */
     BalancedTreeK(const Key *min, const Key *max) {
-
-        InternalNode *root = new InternalNode(NULL, max);
+        InternalNode *root = new InternalNode();
         Node **childArr = new Node *[2 * K - 1]();
-        Leaf *minNode = new Leaf(root, min);
+        Leaf *minNode = new Leaf(root, min);//no value c'tor -> sentinel
         Leaf *maxNode = new Leaf(root, max);
-        minNode->set_isSentinel(true);
-        maxNode->set_isSentinel(true);
         childArr[0] = minNode;
         childArr[1] = maxNode;
         root->set_childArr(childArr); // O(1)

@@ -15,13 +15,19 @@ class Node {
 private:
     Key *_key;
     Node *_parent;
+    /**
+     * number of leaves in subtree without sentinels
+     */
     unsigned int _size; //number of leaves in subtree without sentinels
 
 public:
     Node() : _parent(NULL), _key(NULL) {};
 
-    Node(Node *parent, const Key *key) : _parent(parent) {
-        set_key(key);
+    Node(Node *parent, const Key *key) : _parent(parent), _key(key->clone()) {
+    };
+
+    virtual ~Node(){
+        delete _key; //since clone uses new
     };
 
     Key *get_key() const { return _key; }

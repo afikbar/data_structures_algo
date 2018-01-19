@@ -15,12 +15,13 @@ private:
 
 
 public:
-    InternalNode() {};
+    InternalNode() : Node(), _childArr(new Node *[2 * K - 1]()), _childCnt(0) {};
     //TODO: internalNode c'tor init key and parent to null!
+    //TODO: i might not need to New on keys in InternalNodes..... (problem with set_key,update_key)
 
-    InternalNode(Node *parent, const Key *key = NULL) : Node(parent, key),
-                                                        _childArr(new Node *[2 * K - 1]()),
-                                                        _childCnt(0) {};
+    InternalNode(Node *parent, const Key *key) : Node(parent, key),
+                                                 _childArr(new Node *[2 * K - 1]()),
+                                                 _childCnt(0) {};
     // _childArr is null pointers array
 
     virtual ~InternalNode() {
@@ -30,7 +31,10 @@ public:
         delete[] _childArr;
     };
 
-    virtual void update_key();
+    virtual void
+    update_key();//TODO add minKey inorder to find correct place for getMaxKey (right boundry problem, no need for next\prev)
+    // consider prev and next still since this ^ will require new search method.
+    //TODO maybe i dont need to clone keys for internalnodes, just keep pointer to maxkey?
 
     virtual void update_size();
 
@@ -42,13 +46,15 @@ public:
 
     virtual unsigned int find_orderStats(Node *newChild);
 
-    void add_child(Node *newChild);
+    void add_child(Node *newChild, unsigned int minBound = 0, unsigned int maxBound = 2 * K - 1);
 
     virtual Node *insert_split(Node *newNode);
 
-    Node *get_childX(int x) const;
+    virtual Node *get_childX(int x) const;
 
-    void set_childArr(Node **childArr);
+    void copy_child(Node **destArr, unsigned start = 0, unsigned end = 2 * K - 1);
+
+    void set_childArr(Node **childArr, unsigned start = 0, unsigned end = 2 * K - 1);
 
     const bool isLeaf() { return false; };
 

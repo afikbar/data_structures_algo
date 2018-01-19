@@ -14,7 +14,7 @@ private:
     bool _isSentinel;
 
 public:
-    Leaf(Node *parent, const Key *key) : Node(parent, key),_value(NULL),_isSentinel(true){
+    Leaf(Node *parent, const Key *key) : Node(parent, key), _value(NULL), _isSentinel(true) {
         this->update_size();
     }//Sentinel c'tor (no Value)
 
@@ -22,7 +22,10 @@ public:
                                                              _isSentinel(false),
                                                              _value(value->clone()) {
         this->update_size();
-//        set_value(value);
+    }
+
+    virtual ~Leaf() {
+        delete _value; // since clone uses new
     }
 
     virtual void update_size() {
@@ -47,10 +50,9 @@ public:
     virtual void update_key() {}
 
     virtual Node *search_node(const Key *key) {
-        if (this->get_key() == key) return this;
+        if (!(*(this->get_key()) < *key) && !(*key < *(this->get_key()))) return this; // !< && !> is ==
         return NULL;
     }
-
 };
 
 #endif //SRC_LEAF_H

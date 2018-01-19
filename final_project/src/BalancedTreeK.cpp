@@ -6,21 +6,37 @@
 
 
 void BalancedTreeK::Insert(const Key *nkey, const Value *nval) {
-
     Node *z = new Leaf(NULL, nkey, nval); //temp node creation
     Node *y = this->_root;
     while (!y->isLeaf()) {
         unsigned int childCnt = y->get_childCnt();
-        for (int i = 0; i < childCnt; ++i) {
-            if (z < y->get_childX(i)) {
-                y = y->get_childX(i);
+        int i = 0;
+        for (i; i < childCnt; ++i) {
+            Node *currChild = y->get_childX(i);
+            if (*z < *currChild) {
+                y = currChild;
                 break;
             }
         }
-        y = y->get_childX(childCnt - 1); //rightmost child
     }
-    Node * x = y->get_parent();
+    Node *x = y->get_parent();
     z = x->insert_split(z);
+    while (x != this->_root) { //!! check if same address! not key
+        x = x->get_parent();
+        if (z != NULL) z = x->insert_split(z);
+        else {
+            x->update_key();
+            x->update_size();
+        }
+    }
+    if (z != NULL) {
+        InternalNode *w = new InternalNode();
+        Node **w_childArr = new Node *[2 * K - 1]();
+        w_childArr[0] = x;
+        w_childArr[1] = z;
+        w->set_childArr(w_childArr);
+        this->_root = w;
+    }
 }
 
 void BalancedTreeK::Delete(const Key *dkey) {
@@ -33,7 +49,7 @@ Value *BalancedTreeK::Search(const Key *key) const {
 }
 
 unsigned BalancedTreeK::Rank(const Key *key) const {
-    int rank = 1;
+    unsigned rank = 1;
     Node *x = this->_root->search_node(key);
     if (x == NULL) return 0;
     Node *y = x->get_parent();
