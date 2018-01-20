@@ -42,6 +42,8 @@ public:
         return _childCnt;
     }
 
+    Node *borrow_merge(InternalNode *y);
+
     void update_childCnt();
 
     virtual unsigned int find_orderStats(Node *newChild);

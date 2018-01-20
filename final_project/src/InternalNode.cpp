@@ -69,7 +69,7 @@ Node *InternalNode::insert_split(Node *newNode) {
     Node **x_childArr = new Node *[2 * K - 1]();
     int zOrderStats = this->find_orderStats(newNode); //finds the place of newNode - zero based
     if (this->_childCnt < 2 * K - 1) { //handles case where there is room for newNode.
-        this->add_child(newNode, 0, _childCnt); //TODO check if works..
+        this->add_child(newNode, 0, _childCnt);
         return NULL;
     }
     //split needed, y will be the "larger" node
@@ -132,4 +132,52 @@ void InternalNode::copy_child(Node **destArr, unsigned int start, unsigned int e
     for (int i = start; i < end; ++i) {
         destArr[i - start] = this->_childArr[i];
     }
+}
+
+/**
+ * gets y parent of deleted node, that needs "completion" from brother
+ * notice that y is expected to be after deletion and before childCnt update!
+ * @param y parent of deleted node.
+ * @return
+ */
+Node *InternalNode::borrow_merge(InternalNode *y) {
+    int y_lastPos = y->get_childCnt()-1;
+    Node *z = y->get_parent();
+    Node **z_childArr = new Node *[2 * K - 1]();
+    Node **y_childArr = new Node *[2 * K - 1]();
+    Node **x_childArr = new Node *[2 * K - 1]();
+    Node *x;//brother of y
+    for (int i = 0; i < z->get_childCnt(); ++i) {
+        if (y == z->get_childX(i)) {//pointer equality!
+            //search for promised bro assuming K>1
+            x = i == 0 ? z->get_childX(i + 1) : z->get_childX(i - 1);//x is bro
+            /**because y child got removed**/
+            if (y_lastPos + x->get_childCnt() <= 2 * K - 1) {
+                //there is enough place in x for all y's child's
+                for (int j = 0; j < y_lastPos; ++j) { //
+                    x->add_child(y->get_childX(j));
+                }
+                y->set_childArr(y_childArr);//NULLS - quick replace of y_childArr to avoid deletion via ptrs.
+                delete y;
+                for (int k = i; k < z->get_childCnt() - 1; ++k) {//i is the place of y in z
+                    z_childArr[k] = z->get_childX(k + 1);
+                }
+                z_childArr[z->get_childCnt() - 1] = NULL;
+                z->set_childArr(z_childArr);
+
+            } else {//need to borrow to make y good
+                y->copy_child(y_childArr,0,y_lastPos);// copy y elemnts
+                for (int k=y_lastPos; k < K; ++k) {
+                    y_childArr[k] = x->get_childX(k-y_lastPos);
+                }
+                y->set_childArr(y_childArr);
+                x->copy_child(x_childArr,K,x->get_childCnt());
+                x->set_childArr(x_childArr);
+            }
+            return z;
+        }
+        else z_childArr[i] = z->get_childX(i);//add childs of z up to y.
+
+    }
+    return NULL;
 }
