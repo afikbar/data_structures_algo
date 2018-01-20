@@ -23,14 +23,15 @@ private:
 public:
     Node() : _parent(NULL), _key(NULL) {};
 
-    Node(Node *parent, const Key *key) : _parent(parent), _key(key->clone()) {
-    };
+    Node(Node *parent, const Key *key) : _parent(parent), _key(key->clone()) {};
 
     virtual ~Node() {
         delete _key; //since clone uses new
     };
 
-    Key *get_key() const { return _key; }
+    Key *get_key() const {
+        if (this==NULL) return NULL;
+        return _key; }
 
     Node *get_parent() const { return _parent; }
 
@@ -59,7 +60,7 @@ public:
 
     virtual const bool isLeaf()=0;
 
-    virtual void add_child(Node *newChild, unsigned int minBound = 0, unsigned int maxBound = 2 * K - 1);
+    virtual void add_child(Node *newChild, unsigned int minBound = 0, unsigned int maxBound = 2 * K - 1){};
 
     virtual unsigned int find_orderStats(Node *newChild) {};
 
