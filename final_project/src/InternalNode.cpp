@@ -26,10 +26,14 @@ void InternalNode::update_childCnt() {
  * @param childArr
  */
 void InternalNode::set_childArr(Node **childArr, unsigned start/* = 0*/, unsigned end/* = 2 * K - 1*/) {
+    if (childArr[0] == NULL) {//if set arr used for nullify..
+        this->_childArr = childArr;
+        return;
+    }
     for (int i = start; i < end && childArr[i] != NULL; ++i) {
         childArr[i]->set_parent(this);
     }
-    delete[] this->_childArr; //deletes the old
+    //if (this->_childArr) delete[] (this->_childArr); //deletes the old TODO find out why this fucks up
     // TODO understand if needed to delete each node in the array (might not be needed because im copying pointers)
     this->_childArr = childArr;
     this->update_childCnt();
