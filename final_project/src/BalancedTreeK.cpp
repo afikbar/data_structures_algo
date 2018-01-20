@@ -39,7 +39,47 @@ void BalancedTreeK::Insert(const Key *nkey, const Value *nval) {
     }
 }
 
+/**
+ * Deletes from the tree node with key=dkey if such exist.
+ * otherwise - nothing. O(log_n)
+ * @param dkey
+ */
 void BalancedTreeK::Delete(const Key *dkey) {
+    Node *x = this->_root->search_node(dkey);
+    if (x == NULL) return;
+    Node *y = x->get_parent();
+    Node **y_childArr = new Node *[2 * K - 1]();
+    int xOrderStats = y->find_orderStats(x);
+    for (int i = 0; i < xOrderStats; ++i) {
+        y_childArr[i] = y->get_childX(i);
+    }
+    for (int j = xOrderStats; j < y->get_childCnt() - 1; ++j) {
+        y_childArr[j] = y->get_childX(j + 1);
+    }
+    y->set_childArr(y_childArr);
+    delete x;//must be a leaf, no worries from children delete.
+    //check if y is legit
+    while (y != NULL) {
+        int y_childCnt = y->get_childCnt();
+        if (y_childCnt < K) {//not enoguh childs
+            if (y != this->_root) y = y->borrow_merge();//return the suspected next level node
+            else {
+                this->_root = y->get_childX(y_childCnt-1);//rightmost child
+                this->_root->set_parent(NULL);
+                //safe delete of y
+                y->set_childArr(new Node*[2*K-1]());
+                delete y;
+                return;
+            }
+        }
+        else{
+            y->update_key();
+            y = y->get_parent();
+
+        }
+
+    }
+    //continue here pl0x
 
 }
 

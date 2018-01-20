@@ -67,6 +67,8 @@ public:
 
     virtual Node *search_node(const Key *key)=0;
 
+    virtual Node *borrow_merge() {};
+
     Node *select_rec(unsigned index);
 
     bool operator==(const Node &rhs) const;

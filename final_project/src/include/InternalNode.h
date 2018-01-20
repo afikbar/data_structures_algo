@@ -42,7 +42,7 @@ public:
         return _childCnt;
     }
 
-    Node *borrow_merge(InternalNode *y);
+    virtual Node *borrow_merge();
 
     void update_childCnt();
 

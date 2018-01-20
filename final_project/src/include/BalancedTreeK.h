@@ -14,7 +14,7 @@
 class BalancedTreeK {
 
 private:
-    Node *_root;
+    Node *_root;//changed from InternalNode for deletion to work..
 
 
 public:

@@ -140,8 +140,9 @@ void InternalNode::copy_child(Node **destArr, unsigned int start, unsigned int e
  * @param y parent of deleted node.
  * @return
  */
-Node *InternalNode::borrow_merge(InternalNode *y) {
-    int y_lastPos = y->get_childCnt()-1;
+Node *InternalNode::borrow_merge() {
+    InternalNode *y = this;
+    int y_lastPos = y->get_childCnt();//removed
     Node *z = y->get_parent();
     Node **z_childArr = new Node *[2 * K - 1]();
     Node **y_childArr = new Node *[2 * K - 1]();
@@ -166,17 +167,26 @@ Node *InternalNode::borrow_merge(InternalNode *y) {
                 z->set_childArr(z_childArr);
 
             } else {//need to borrow to make y good
-                y->copy_child(y_childArr,0,y_lastPos);// copy y elemnts
-                for (int k=y_lastPos; k < K; ++k) {
-                    y_childArr[k] = x->get_childX(k-y_lastPos);
+                y->copy_child(y_childArr, 0, y_lastPos);// copy y elemnts
+                if (i==0){
+                    y_childArr[y_lastPos] = x->get_childX(0);
+                    x->copy_child(x_childArr,1,x->get_childCnt());
                 }
+                else {
+                    y->add_child(x->get_childX(x->get_childCnt()-1));
+                    x->copy_child(x_childArr,0,x->get_childCnt()-1);
+                }
+//                for (int k = y_lastPos; k < K; ++k) {
+//                    y_childArr[k] = x->get_childX(k - y_lastPos);
+//                }
                 y->set_childArr(y_childArr);
-                x->copy_child(x_childArr,K,x->get_childCnt());
+                //x->copy_child(x_childArr, K, x->get_childCnt());
                 x->set_childArr(x_childArr);
+                z->update_key();
+                z->update_size();
             }
             return z;
-        }
-        else z_childArr[i] = z->get_childX(i);//add childs of z up to y.
+        } else z_childArr[i] = z->get_childX(i);//add childs of z up to y.
 
     }
     return NULL;
