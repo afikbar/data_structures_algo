@@ -26,7 +26,7 @@ public:
     Node(Node *parent, const Key *key) : _parent(parent), _key(key->clone()) {
     };
 
-    virtual ~Node(){
+    virtual ~Node() {
         delete _key; //since clone uses new
     };
 
@@ -48,11 +48,18 @@ public:
 
     void set_parent(Node *newParent) { _parent = newParent; }
 
+    virtual void copy_child(Node **destArr, unsigned start = 0, unsigned end = 2 * K - 1){};
+
+    virtual void set_childArr(Node **childArr, unsigned start = 0, unsigned end = 2 * K - 1){};
+
     virtual void update_size()=0;
+
+    //TODO check if updates need to be recursive? i.e. if child max key got updated it can affect parent same with size. if so, alter borrow&merge that uses set_children(calls updates) for nullifying childs
+    virtual void update_key()=0;
 
     virtual const bool isLeaf()=0;
 
-    virtual void update_key()=0;
+    virtual void add_child(Node *newChild, unsigned int minBound = 0, unsigned int maxBound = 2 * K - 1);
 
     virtual unsigned int find_orderStats(Node *newChild) {};
 
