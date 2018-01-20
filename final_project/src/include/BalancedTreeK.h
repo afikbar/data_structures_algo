@@ -14,7 +14,7 @@
 class BalancedTreeK {
 
 private:
-    InternalNode *_root;
+    Node *_root;
 
 
 public:
