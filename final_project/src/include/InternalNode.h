@@ -31,8 +31,8 @@ public:
         delete[] _childArr;
     };
 
-    virtual void
-    update_key();//TODO add minKey inorder to find correct place for getMaxKey (right boundry problem, no need for next\prev)
+    virtual void update_key();
+    //TODO add minKey inorder to find correct place for getMaxKey (right boundry problem, no need for next\prev)
     // consider prev and next still since this ^ will require new search method.
     //TODO maybe i dont need to clone keys for internalnodes, just keep pointer to maxkey?
 
@@ -46,15 +46,15 @@ public:
 
     virtual unsigned int find_orderStats(Node *newChild);
 
-    void add_child(Node *newChild, unsigned int minBound = 0, unsigned int maxBound = 2 * K - 1);
+    virtual void add_child(Node *newChild, unsigned int minBound = 0, unsigned int maxBound = 2 * K - 1);
 
     virtual Node *insert_split(Node *newNode);
 
     virtual Node *get_childX(int x) const;
 
-    void copy_child(Node **destArr, unsigned start = 0, unsigned end = 2 * K - 1);
+    virtual void copy_child(Node **destArr, unsigned start = 0, unsigned end = 2 * K - 1);
 
-    void set_childArr(Node **childArr, unsigned start = 0, unsigned end = 2 * K - 1);
+    virtual void set_childArr(Node **childArr, unsigned start = 0, unsigned end = 2 * K - 1);
 
     const bool isLeaf() { return false; };
 
