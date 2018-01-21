@@ -29,7 +29,7 @@ public:
             if (_childArr[i]) delete _childArr[i];
         }
         delete[] _childArr;
-    };
+    }
 
     virtual void update_key();
     //TODO add minKey inorder to find correct place for getMaxKey (right boundry problem, no need for next\prev)
@@ -44,7 +44,7 @@ public:
 
     virtual Node *borrow_merge();
 
-    void update_childCnt();
+    virtual void update_childCnt();
 
     virtual unsigned int find_orderStats(Node *newChild);
 

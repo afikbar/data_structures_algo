@@ -29,9 +29,7 @@ public:
         delete _key; //since clone uses new
     };
 
-    Key *get_key() const {
-        if (this==NULL) return NULL;
-        return _key; }
+    Key *get_key() const { return _key; }
 
     Node *get_parent() const { return _parent; }
 
@@ -44,6 +42,7 @@ public:
     virtual unsigned get_childCnt() const {}
 
     void set_key(const Key *key) { _key = key != NULL ? key->clone() : NULL; }
+    //TODO i might not need to clone each key. if removed modify internal delete to skip _key deletion.
 
     void set_size(const unsigned int size) { _size = size; }
 
@@ -56,7 +55,15 @@ public:
     virtual void update_size()=0;
 
     //TODO check if updates need to be recursive? i.e. if child max key got updated it can affect parent same with size. if so, alter borrow&merge that uses set_children(calls updates) for nullifying childs
-    virtual void update_key()=0;
+    virtual void update_key(){};
+
+    virtual void update_childCnt(){};
+
+    virtual void update_helper(){
+        this->update_childCnt();
+        this->update_key();
+        this->update_size();
+    };
 
     virtual const bool isLeaf()=0;
 

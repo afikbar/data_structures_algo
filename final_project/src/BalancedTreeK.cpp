@@ -25,8 +25,9 @@ void BalancedTreeK::Insert(const Key *nkey, const Value *nval) {
         x = x->get_parent();
         if (z != NULL) z = x->insert_split(z);
         else {
-            x->update_key();
-            x->update_size();
+            x->update_helper();
+//            x->update_key();
+//            x->update_size();
         }
     }
     if (z != NULL) {

@@ -47,8 +47,6 @@ public:
 
     const bool isLeaf() { return true; }
 
-    virtual void update_key() {}
-
     virtual Node *search_node(const Key *key) {
         if (!(*(this->get_key()) < *key) && !(*key < *(this->get_key()))) return this; // !< && !> is ==
         return NULL;

@@ -2,7 +2,7 @@
 // Created by Afik on 12/01/2018.
 //
 
-#include <Leaf.h>
+#include "Leaf.h"
 #include "InternalNode.h"
 
 void InternalNode::update_key() {
@@ -33,7 +33,8 @@ void InternalNode::set_childArr(Node **childArr, unsigned start/* = 0*/, unsigne
     for (int i = start; i < end && childArr[i] != NULL; ++i) {
         childArr[i]->set_parent(this);
     }
-    //if (this->_childArr) delete[] (this->_childArr); //deletes the old TODO find out why this fucks up
+//    if (this->_childArr) delete[] (this->_childArr); //deletes the old TODO find out why this fucks up
+    //!! possible fix -  delete temp array and copy the pointers.......(shitz)
     // TODO understand if needed to delete each node in the array (might not be needed because im copying pointers)
     this->_childArr = childArr;
     this->update_childCnt();
@@ -195,3 +196,4 @@ Node *InternalNode::borrow_merge() {
     }
     return NULL;
 }
+
