@@ -62,19 +62,18 @@ void BalancedTreeK::Delete(const Key *dkey) {
     //check if y is legit
     while (y != NULL) {
         int y_childCnt = y->get_childCnt();
-        if (y_childCnt < K) {//not enoguh childs
-            if (y != this->_root) y = y->borrow_merge();//return the suspected next level node
-            else {
-                this->_root = y->get_childX(y_childCnt-1);//rightmost child
-                this->_root->set_parent(NULL);
-                //safe delete of y
-                y->set_childArr(new Node*[2*K-1]());
-                delete y;
-                return;
-            }
-        }
-        else{
-            y->update_key();
+        if (y_childCnt < K && y != this->_root) { //not enoguh childs
+            y = y->borrow_merge();//return the suspected next level node
+        } else if (y_childCnt < 2) {//
+            this->_root = y->get_childX(y_childCnt - 1);//rightmost child
+            this->_root->set_parent(NULL);
+            //safe delete of y
+            y->set_childArr(new Node *[2 * K - 1]());
+            delete y;
+            return;// this is root..
+        } else {
+//            y->update_key();
+            y->update_helper();
             y = y->get_parent();
 
         }
