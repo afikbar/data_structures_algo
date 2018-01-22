@@ -37,9 +37,10 @@ void InternalNode::set_childArr(Node **childArr, unsigned start/* = 0*/, unsigne
     //!! possible fix -  delete temp array and copy the pointers.......(shitz)
     // TODO understand if needed to delete each node in the array (might not be needed because im copying pointers)
     this->_childArr = childArr;
-    this->update_childCnt();
-    this->update_key();
-    this->update_size();
+    this->update_helper();
+//    this->update_childCnt();
+//    this->update_key();
+//    this->update_size();
 }
 
 
@@ -173,13 +174,12 @@ Node *InternalNode::borrow_merge() {
 
             } else {//need to borrow to make y good
                 y->copy_child(y_childArr, 0, y_lastPos);// copy y elemnts
-                if (i==0){
+                if (i == 0) {
                     y_childArr[y_lastPos] = x->get_childX(0);
-                    x->copy_child(x_childArr,1,x->get_childCnt());
-                }
-                else {
-                    y->add_child(x->get_childX(x->get_childCnt()-1));
-                    x->copy_child(x_childArr,0,x->get_childCnt()-1);
+                    x->copy_child(x_childArr, 1, x->get_childCnt());
+                } else {
+                    y->add_child(x->get_childX(x->get_childCnt() - 1));
+                    x->copy_child(x_childArr, 0, x->get_childCnt() - 1);
                 }
 //                for (int k = y_lastPos; k < K; ++k) {
 //                    y_childArr[k] = x->get_childX(k - y_lastPos);
@@ -187,13 +187,27 @@ Node *InternalNode::borrow_merge() {
                 y->set_childArr(y_childArr);
                 //x->copy_child(x_childArr, K, x->get_childCnt());
                 x->set_childArr(x_childArr);
-                z->update_key();
-                z->update_size();
+                z->update_helper();
+//                z->update_key();
+//                z->update_size();
             }
             return z;
         } else z_childArr[i] = z->get_childX(i);//add childs of z up to y.
 
     }
     return NULL;
+}
+
+void InternalNode::update_maxValue() {
+    // Value *currValue = this->get_value();
+    this->_maxVal = (this->_childArr[0])->get_value();
+    for (int i = 1; i < this->get_childCnt(); ++i) {
+        Value *currChildVal = (this->_childArr[i])->get_value();
+        if (currChildVal == NULL) continue;
+        if (this->get_value() == NULL || *(this->get_value()) < *currChildVal) {
+            this->_maxVal = currChildVal;
+        }
+        //if (*(this->get_value()) < *currChildVal) this->_maxVal = currChildVal;
+    }
 }
 

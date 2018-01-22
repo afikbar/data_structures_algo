@@ -2,13 +2,13 @@
 // Created by Afik on 06/01/2018.
 //
 
-#include "include/BalancedTreeK.h"
+#include "BalancedTreeK.h"
 
 
 void BalancedTreeK::Insert(const Key *nkey, const Value *nval) {
     Node *z = new Leaf(NULL, nkey, nval); //temp node creation
-    Node *y = this->_root;
-    while (!y->isLeaf()) {
+    Node *y = this->search_upper(nkey);//finds leaf that key == nkey or key is it's "next"
+    /*while (!y->isLeaf()) {//finding the nearest bigger brother.
         unsigned int childCnt = y->get_childCnt();
         int i = 0;
         for (i; i < childCnt; ++i) {
@@ -18,7 +18,7 @@ void BalancedTreeK::Insert(const Key *nkey, const Value *nval) {
                 break;
             }
         }
-    }
+    }*/
     Node *x = y->get_parent();
     z = x->insert_split(z);
     while (x != this->_root) { //!! check if same address! not key
@@ -110,8 +110,33 @@ const Key *BalancedTreeK::Select(unsigned index) const {
     return selected->get_key();
 }
 
+
 const Value *BalancedTreeK::GetMaxValue(const Key *key1, const Key *key2) const {
-    return NULL;
+    if (*key2 < *key1) return NULL;
+    Node *rightNode = this->search_upper(key1);
+    Node *leftNode = this->search_upper(key2)->get_predecessor();
+    if (*leftNode < *rightNode) return NULL;
+    Value *rValue = rightNode->get_value();
+    Value *lValue = leftNode->get_value();
+    Value *maxVal = *rValue < *lValue ? lValue : rValue;
+    //get first shared parent
+    Node *rPrnt = rightNode->get_parent();
+    Node *lPrnt = leftNode->get_parent();
+    while (rPrnt->get_parent() != lPrnt->get_parent()) {
+        rPrnt = rPrnt->get_parent();
+        lPrnt = lPrnt->get_parent();
+    }//rPrnt->get_parent() = lPrnt->get_parent()
+    Node *shrdParent = rPrnt->get_parent();
+    int rOrderStats = shrdParent->find_orderStats(rPrnt);
+    int lOrderStats = shrdParent->find_orderStats(lPrnt);
+    for (int i = rOrderStats + 1; i < lOrderStats; ++i) {
+        Value *currVal = shrdParent->get_childX(i)->get_value();//internalNode get_val is maxval.
+        if (currVal == NULL) continue;
+        maxVal = *maxVal < *currVal ? currVal : maxVal;
+    }
+    return maxVal;
+}
+
 Node *BalancedTreeK::search_upper(const Key *key1) const {
     Node *rightNode = this->_root;
     while (!rightNode->isLeaf()) {//finding the nearest bigger brother. or the node itself.

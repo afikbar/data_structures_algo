@@ -33,13 +33,15 @@ public:
         else this->set_size(0);
     }
 
-    virtual Value *get_value() const { return _value; }
+    virtual Value *get_value() const { return this->_value; }
 
-    bool is_isSentinel() const { return _isSentinel; }
+    virtual bool isSentinel() const { return _isSentinel; }
 
     void set_isSentinel(bool isSentinel) { _isSentinel = isSentinel; }
 
-    void set_value(const Value *value) { _value = value != NULL ? value->clone() : NULL; }
+    virtual void set_value(Value *value) { _value = value; /*!= NULL ? value->clone() : NULL*/ }
+
+    virtual unsigned int get_childCnt() const { return 0; }
 
     virtual Node *get_childX(int x) const {
         return NULL;
