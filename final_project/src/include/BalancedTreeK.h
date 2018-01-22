@@ -58,6 +58,8 @@ public:
 
     const Key *Select(unsigned index) const;
 
+    Node *search_upper(const Key *key1) const;
+
     const Value *GetMaxValue(const Key *key1, const Key *key2) const;
 
 

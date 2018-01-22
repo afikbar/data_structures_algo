@@ -112,4 +112,19 @@ const Key *BalancedTreeK::Select(unsigned index) const {
 
 const Value *BalancedTreeK::GetMaxValue(const Key *key1, const Key *key2) const {
     return NULL;
+Node *BalancedTreeK::search_upper(const Key *key1) const {
+    Node *rightNode = this->_root;
+    while (!rightNode->isLeaf()) {//finding the nearest bigger brother. or the node itself.
+        unsigned int childCnt = rightNode->get_childCnt();
+        int i = 0;
+        for (i; i < childCnt; ++i) {
+            Node *currChild = rightNode->get_childX(i);
+            if (!(*(currChild->get_key()) < *key1)) {// !< is >=
+                rightNode = currChild;
+                break;
+            }
+        }
+    }
+    return rightNode;
 }
+

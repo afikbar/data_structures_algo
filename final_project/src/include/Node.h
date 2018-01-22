@@ -33,13 +33,15 @@ public:
 
     Node *get_parent() const { return _parent; }
 
-    virtual Value *get_value() const {}
+    virtual Value *get_value() const =0;
 
     unsigned int get_size() const { return _size; }
 
     virtual Node *get_childX(int x) const =0;
 
-    virtual unsigned get_childCnt() const {}
+    virtual unsigned get_childCnt() const =0;
+
+    Node *get_predecessor();
 
     void set_key(const Key *key) { _key = key != NULL ? key->clone() : NULL; }
     //TODO i might not need to clone each key. if removed modify internal delete to skip _key deletion.
@@ -47,6 +49,8 @@ public:
     void set_size(const unsigned int size) { _size = size; }
 
     void set_parent(Node *newParent) { _parent = newParent; }
+
+    virtual void set_value(Value *value) =0;
 
     virtual void copy_child(Node **destArr, unsigned start = 0, unsigned end = 2 * K - 1){};
 
@@ -59,13 +63,18 @@ public:
 
     virtual void update_childCnt(){};
 
+    virtual void update_maxValue(){};
+
     virtual void update_helper(){
         this->update_childCnt();
         this->update_key();
         this->update_size();
+        this->update_maxValue();
     };
 
     virtual const bool isLeaf()=0;
+
+    virtual bool isSentinel() const=0;
 
     virtual void add_child(Node *newChild, unsigned int minBound = 0, unsigned int maxBound = 2 * K - 1){};
 
