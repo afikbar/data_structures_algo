@@ -6,7 +6,6 @@
 
 
 void BalancedTreeK::Insert(const Key *nkey, const Value *nval) {
-    Node *z = new Leaf(NULL, nkey, nval); //temp node creation
     Node *y = this->search_upper(nkey);//finds leaf that key == nkey or key is it's "next"
     /*while (!y->isLeaf()) {//finding the nearest bigger brother.
         unsigned int childCnt = y->get_childCnt();
@@ -20,6 +19,7 @@ void BalancedTreeK::Insert(const Key *nkey, const Value *nval) {
         }
     }*/
     Node *x = y->get_parent();
+    Node *z = new Leaf(x, nkey, nval); //temp node creation
     z = x->insert_split(z);
     while (x != this->_root) { //!! check if same address! not key
         x = x->get_parent();
@@ -122,14 +122,28 @@ const Value *BalancedTreeK::GetMaxValue(const Key *key1, const Key *key2) const 
     //get first shared parent
     Node *rPrnt = rightNode->get_parent();
     Node *lPrnt = leftNode->get_parent();
-    while (rPrnt->get_parent() != lPrnt->get_parent()) {
+    while (rPrnt!= lPrnt) {
+        int rOrderStats = rPrnt->find_orderStats(rightNode);
+        int lOrderStats = lPrnt->find_orderStats(leftNode);
+        for (int i = lOrderStats+1; i < lPrnt->get_childCnt(); ++i) {//without leftnode value/maxval
+            Value *currVal = lPrnt->get_childX(i)->get_value();
+            if (currVal == NULL) continue;//TODO understand why there is nulls, probably deleted values or something..
+            maxVal = *maxVal < *currVal ? currVal : maxVal;
+        }
+        for (int j = 0; j < rOrderStats; ++j) {//without rightnode value/maxval
+            Value *currVal = rPrnt->get_childX(j)->get_value();
+            if (currVal == NULL) continue;
+            maxVal = *maxVal < *currVal ? currVal : maxVal;
+        }
+        rightNode = rPrnt;
+        leftNode = lPrnt;
         rPrnt = rPrnt->get_parent();
         lPrnt = lPrnt->get_parent();
     }//rPrnt->get_parent() = lPrnt->get_parent()
-    Node *shrdParent = rPrnt->get_parent();
-    int rOrderStats = shrdParent->find_orderStats(rPrnt);
-    int lOrderStats = shrdParent->find_orderStats(lPrnt);
-    for (int i = rOrderStats + 1; i < lOrderStats; ++i) {
+    Node *shrdParent = rPrnt;
+    int rOrderStats = shrdParent->find_orderStats(rightNode);
+    int lOrderStats = shrdParent->find_orderStats(leftNode);
+    for (int i = lOrderStats + 1; i < rOrderStats; ++i) {
         Value *currVal = shrdParent->get_childX(i)->get_value();//internalNode get_val is maxval.
         if (currVal == NULL) continue;
         maxVal = *maxVal < *currVal ? currVal : maxVal;

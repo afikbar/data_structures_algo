@@ -34,7 +34,7 @@ Node *Node::select_rec(unsigned index) {
     for (int i = 0; i < this->get_childCnt(); ++i) {
         Node *currChild = this->get_childX(i);
         leftSize += currChild->get_size(); //leftmost size
-        if (index <= leftSize) return currChild->select_rec(index - prvSize);
+        if (index <= leftSize) return currChild->select_rec(index - prvSize);//TODO debug missing by plus one the node(getting the sequel one)
         prvSize = leftSize;
 //        currChild = this->get_childX(i);
 //        leftSize += currChild->get_size();
