@@ -7,29 +7,16 @@
 
 void BalancedTreeK::Insert(const Key *nkey, const Value *nval) {
     Node *y = this->search_upper(nkey);//finds leaf that key == nkey or key is it's "next"
-    /*while (!y->isLeaf()) {//finding the nearest bigger brother.
-        unsigned int childCnt = y->get_childCnt();
-        int i = 0;
-        for (i; i < childCnt; ++i) {
-            Node *currChild = y->get_childX(i);
-            if (*z < *currChild) {
-                y = currChild;
-                break;
-            }
-        }
-    }*/
     Node *x = y->get_parent();
-    Node *z = new Leaf(x, nkey, nval); //temp node creation
+    Node *z = new Leaf(NULL, nkey, nval); //temp node creation
     z = x->insert_split(z);
     while (x != this->_root) { //!! check if same address! not key
         x = x->get_parent();
         if (z != NULL) z = x->insert_split(z);
         else {
             x->update_helper();
-//            x->update_key();
-//            x->update_size();
         }
-    }
+    }//x is root
     if (z != NULL) {
         InternalNode *w = new InternalNode();
         Node **w_childArr = new Node *[2 * K - 1]();
@@ -68,19 +55,16 @@ void BalancedTreeK::Delete(const Key *dkey) {
             this->_root = y->get_childX(y_childCnt - 1);//rightmost child
             this->_root->set_parent(NULL);
             //safe delete of y
-            y->set_childArr(new Node *[2 * K - 1]());
+            y->set_childArr(NULL);
             delete y;
             return;// this is root..
         } else {
-//            y->update_key();
             y->update_helper();
             y = y->get_parent();
 
         }
 
     }
-    //continue here pl0x
-
 }
 
 Value *BalancedTreeK::Search(const Key *key) const {
@@ -113,9 +97,9 @@ const Key *BalancedTreeK::Select(unsigned index) const {
 
 const Value *BalancedTreeK::GetMaxValue(const Key *key1, const Key *key2) const {
     if (*key2 < *key1) return NULL;
-    Node *rightNode = this->search_upper(key1);
-    Node *leftNode = this->search_upper(key2)->get_predecessor();
-    if (*leftNode < *rightNode) return NULL;
+    Node *leftNode = this->search_upper(key1);
+    Node *rightNode = this->search_upper(key2)->get_predecessor();
+    if (*rightNode < *leftNode) return NULL;
     Value *rValue = rightNode->get_value();
     Value *lValue = leftNode->get_value();
     Value *maxVal = *rValue < *lValue ? lValue : rValue;
@@ -127,7 +111,7 @@ const Value *BalancedTreeK::GetMaxValue(const Key *key1, const Key *key2) const 
         int lOrderStats = lPrnt->find_orderStats(leftNode);
         for (int i = lOrderStats+1; i < lPrnt->get_childCnt(); ++i) {//without leftnode value/maxval
             Value *currVal = lPrnt->get_childX(i)->get_value();
-            if (currVal == NULL) continue;//TODO understand why there is nulls, probably deleted values or something..
+            if (currVal == NULL) continue;//TODO understand why there is nulls, probably deleted values or something..(senti?)
             maxVal = *maxVal < *currVal ? currVal : maxVal;
         }
         for (int j = 0; j < rOrderStats; ++j) {//without rightnode value/maxval

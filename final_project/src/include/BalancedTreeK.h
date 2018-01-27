@@ -9,20 +9,13 @@
 #include "InternalNode.h"
 #include "Leaf.h"
 #include "ParameterK.h"
-#include <cstddef>
 
 class BalancedTreeK {
 
 private:
-    Node *_root;//changed from InternalNode for deletion to work..
-
+    Node *_root;
 
 public:
-    /** class C'tor:
-     *
-     * @param min
-     * @param max
-     */
     BalancedTreeK(const Key *min, const Key *max) {
         InternalNode *root = new InternalNode();
         Node **childArr = new Node *[2 * K - 1]();
@@ -30,7 +23,7 @@ public:
         Leaf *maxNode = new Leaf(root, max);
         childArr[0] = minNode;
         childArr[1] = maxNode;
-        root->set_childArr(childArr); // O(1)
+        root->set_childArr(childArr); // O(k)
         _root = root;
     }
 

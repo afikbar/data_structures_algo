@@ -14,45 +14,30 @@ private:
     bool _isSentinel;
 
 public:
-    Leaf(Node *parent, const Key *key) : Node(parent, key), _value(NULL), _isSentinel(true) {
-        this->update_size();
-    }//Sentinel c'tor (no Value)
+    Leaf(Node *parent, const Key *key) : Node(parent, key, 0), _value(NULL), _isSentinel(true) {}
+    //Sentinel c'tor (no Value)
 
-    Leaf(Node *parent, const Key *key, const Value *value) : Node(parent, key),
+    Leaf(Node *parent, const Key *key, const Value *value) : Node(parent, key, 1),
                                                              _isSentinel(false),
-                                                             _value(value->clone()) {
-        this->update_size();
-    }
+                                                             _value(value->clone()) {}
 
-    virtual ~Leaf() {
-        delete _value; // since clone uses new
-    }
+    virtual ~Leaf() { delete _value; }
 
-    virtual void update_size() {
-        if (!this->_isSentinel) this->set_size(1);
-        else this->set_size(0);
-    }
+    virtual void update_size();
 
     virtual Value *get_value() const { return this->_value; }
 
     virtual bool isSentinel() const { return _isSentinel; }
 
-    void set_isSentinel(bool isSentinel) { _isSentinel = isSentinel; }
-
-    virtual void set_value(Value *value) { _value = value; /*!= NULL ? value->clone() : NULL*/ }
+    virtual void set_value(Value *value) { _value = value;}
 
     virtual unsigned int get_childCnt() const { return 0; }
 
-    virtual Node *get_childX(int x) const {
-        return NULL;
-    }
+    virtual Node *get_childX(int x) const { return NULL; }
 
     const bool isLeaf() { return true; }
 
-    virtual Node *search_node(const Key *key) {
-        if (!(*(this->get_key()) < *key) && !(*key < *(this->get_key()))) return this; // !< && !> is ==
-        return NULL;
-    }
+    virtual Node *search_node(const Key *key);
 };
 
 #endif //SRC_LEAF_H

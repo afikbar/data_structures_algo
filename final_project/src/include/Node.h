@@ -15,15 +15,14 @@ class Node {
 private:
     Key *_key;
     Node *_parent;
-    /**
-     * number of leaves in subtree without sentinels
-     */
     unsigned int _size; //number of leaves in subtree without sentinels
 
 public:
     Node() : _parent(NULL), _key(NULL) {};
 
     Node(Node *parent, const Key *key) : _parent(parent), _key(key->clone()) {};
+
+    Node(Node *parent, const Key *key, unsigned int size) : _parent(parent), _key(key->clone()), _size(size) {};
 
     virtual ~Node() {
         delete _key; //since clone uses new
@@ -43,7 +42,7 @@ public:
 
     Node *get_predecessor();
 
-    void set_key(const Key *key) { _key = key != NULL ? key->clone() : NULL; }
+    void set_key(const Key *key);
     //TODO i might not need to clone each key. if removed modify internal delete to skip _key deletion.
 
     void set_size(const unsigned int size) { _size = size; }
@@ -54,7 +53,7 @@ public:
 
     virtual void copy_child(Node **destArr, unsigned start = 0, unsigned end = 2 * K - 1){};
 
-    virtual void set_childArr(Node **childArr, unsigned start = 0, unsigned end = 2 * K - 1){};
+    virtual void set_childArr(Node **childArr) {};
 
     virtual void update_size()=0;
 
@@ -65,18 +64,13 @@ public:
 
     virtual void update_maxValue(){};
 
-    virtual void update_helper(){
-        this->update_childCnt();
-        this->update_key();
-        this->update_size();
-        this->update_maxValue();
-    };
+    virtual void update_helper();;
 
     virtual const bool isLeaf()=0;
 
     virtual bool isSentinel() const=0;
 
-    virtual void add_child(Node *newChild, unsigned int minBound = 0, unsigned int maxBound = 2 * K - 1){};
+    virtual void add_child(Node *newChild, unsigned int minBound = 0, unsigned int maxBound = 2 * K - 2){};
 
     virtual unsigned int find_orderStats(Node *newChild) {};
 
