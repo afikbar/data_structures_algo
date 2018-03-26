@@ -98,7 +98,8 @@ const Key *BalancedTreeK::Select(unsigned index) const {
 const Value *BalancedTreeK::GetMaxValue(const Key *key1, const Key *key2) const {
     if (*key2 < *key1) return NULL;
     Node *leftNode = this->search_upper(key1);
-    Node *rightNode = this->search_upper(key2)->get_predecessor();
+    Node *rightNode = this->_root->search_node(key2);
+    if (rightNode == NULL) rightNode = this->search_upper(key2)->get_predecessor();
     if (*rightNode < *leftNode) return NULL;
     Value *rValue = rightNode->get_value();
     Value *lValue = leftNode->get_value();
@@ -106,12 +107,13 @@ const Value *BalancedTreeK::GetMaxValue(const Key *key1, const Key *key2) const 
     //get first shared parent
     Node *rPrnt = rightNode->get_parent();
     Node *lPrnt = leftNode->get_parent();
-    while (rPrnt!= lPrnt) {
+    while (rPrnt != lPrnt) {
         int rOrderStats = rPrnt->find_orderStats(rightNode);
         int lOrderStats = lPrnt->find_orderStats(leftNode);
-        for (int i = lOrderStats+1; i < lPrnt->get_childCnt(); ++i) {//without leftnode value/maxval
+        for (int i = lOrderStats + 1; i < lPrnt->get_childCnt(); ++i) {//without leftnode value/maxval
             Value *currVal = lPrnt->get_childX(i)->get_value();
-            if (currVal == NULL) continue;//TODO understand why there is nulls, probably deleted values or something..(senti?)
+            if (currVal == NULL)
+                continue;//TODO understand why there is nulls, probably deleted values or something..(senti?)
             maxVal = *maxVal < *currVal ? currVal : maxVal;
         }
         for (int j = 0; j < rOrderStats; ++j) {//without rightnode value/maxval
