@@ -1,0 +1,107 @@
+Search for key: 0.35787, resulted in value: NULL
+Rank for key: 0.589826, resulted in: 0
+Select for index: 103, resulted in key: NULL
+GetMaxValue for interval [0.494499,1.03803], resulted in value: NULL
+Search for key: 0.726466, resulted in value: vpxmidhhdo
+Rank for key: 0.564772, resulted in: 61
+Select for index: 67, resulted in key: 0.612357
+GetMaxValue for interval [0.981712,0.224827], resulted in value: NULL
+Search for key: 0.85099, resulted in value: bgbzngqzsa
+Rank for key: 0.544072, resulted in: 0
+Select for index: 58, resulted in key: 0.8379
+GetMaxValue for interval [0.978355,0.664881], resulted in value: NULL
+Select for index: 49, resulted in key: 0.624353
+Rank for key: 0.715095, resulted in: 0
+Rank for key: 0.621457, resulted in: 0
+Rank for key: 0.89442, resulted in: 73
+Search for key: 0.865737, resulted in value: NULL
+GetMaxValue for interval [0.0586847,0.324397], resulted in value: yjffcatdje
+Search for key: 0.32342, resulted in value: ctietodhzl
+Rank for key: 0.393606, resulted in: 34
+GetMaxValue for interval [0.626927,0.911919], resulted in value: wzclelkqtl
+Select for index: 1, resulted in key: 0.0110686
+Select for index: 68, resulted in key: 0.85486
+Rank for key: 0.366457, resulted in: 30
+Select for index: 42, resulted in key: 0.544511
+GetMaxValue for interval [0.528302,1.25156], resulted in value: xrychxhbom
+Search for key: 0.319285, resulted in value: tiljyhtyir
+Search for key: 0.340483, resulted in value: NULL
+GetMaxValue for interval [0.407152,0.621457], resulted in value: xrychxhbom
+GetMaxValue for interval [0.159159,0.287902], resulted in value: yjffcatdje
+Select for index: 18, resulted in key: 0.274064
+Rank for key: 0.85099, resulted in: 65
+Select for index: 55, resulted in key: 0.711467
+Search for key: 0.0889191, resulted in value: NULL
+GetMaxValue for interval [0.94307,0.966152], resulted in value: wuivjsashs
+Select for index: 89, resulted in key: NULL
+GetMaxValue for interval [0.784513,0.32342], resulted in value: NULL
+Rank for key: 0.163829, resulted in: 10
+Rank for key: 0.595722, resulted in: 0
+Search for key: 0.569958, resulted in value: eupvpswrop
+Select for index: 53, resulted in key: 0.684925
+Rank for key: 0.911919, resulted in: 0
+Select for index: 38, resulted in key: 0.523487
+Select for index: 102, resulted in key: NULL
+Rank for key: 0.570545, resulted in: 43
+Search for key: 0.717659, resulted in value: kmazmbwhlg
+Rank for key: 0.589826, resulted in: 44
+Rank for key: 0.0612089, resulted in: 0
+Rank for key: 0.797769, resulted in: 58
+Select for index: 29, resulted in key: 0.366457
+GetMaxValue for interval [0.00976616,0.616347], resulted in value: yjffcatdje
+GetMaxValue for interval [0.660229,0.21171], resulted in value: NULL
+GetMaxValue for interval [0.102214,0.712602], resulted in value: yjffcatdje
+Select for index: 23, resulted in key: 0.292149
+Rank for key: 0.981712, resulted in: 0
+Search for key: 0.557327, resulted in value: NULL
+Search for key: 0.764732, resulted in value: hszlruzfud
+Rank for key: 0.275414, resulted in: 19
+Select for index: 21, resulted in key: 0.280481
+Search for key: 0.275414, resulted in value: uwldkfstyh
+Rank for key: 0.911919, resulted in: 0
+Search for key: 0.764459, resulted in value: NULL
+Rank for key: 0.737438, resulted in: 55
+Select for index: 6, resulted in key: 0.131411
+Search for key: 0.538225, resulted in value: NULL
+GetMaxValue for interval [0.593576,1.43298], resulted in value: xrychxhbom
+GetMaxValue for interval [0.455562,0.275414], resulted in value: NULL
+GetMaxValue for interval [0.0420019,0.697759], resulted in value: yjffcatdje
+GetMaxValue for interval [0.160119,0.903397], resulted in value: yjffcatdje
+Rank for key: 0.660229, resulted in: 49
+Search for key: 0.624353, resulted in value: uoddwvlnbw
+Select for index: 111, resulted in key: NULL
+Select for index: 18, resulted in key: 0.275452
+Rank for key: 0.0456512, resulted in: 0
+Search for key: 0.686352, resulted in value: NULL
+Search for key: 0.969013, resulted in value: NULL
+Rank for key: 0.213232, resulted in: 10
+Select for index: 109, resulted in key: NULL
+Select for index: 9, resulted in key: 0.174045
+GetMaxValue for interval [0.424667,0.972123], resulted in value: xrychxhbom
+GetMaxValue for interval [0.273837,1.04089], resulted in value: yhzszqarzf
+GetMaxValue for interval [0.280481,0.455562], resulted in value: yhhgnssrgq
+Rank for key: 0.660229, resulted in: 46
+Rank for key: 0.73601, resulted in: 0
+GetMaxValue for interval [0.234584,1.22324], resulted in value: yhzszqarzf
+Rank for key: 0.371255, resulted in: 27
+Search for key: 0.764459, resulted in value: NULL
+Rank for key: 0.911919, resulted in: 0
+Select for index: 95, resulted in key: NULL
+Rank for key: 0.407152, resulted in: 30
+Search for key: 0.621457, resulted in value: NULL
+GetMaxValue for interval [0.596663,0.370597], resulted in value: NULL
+Search for key: 0.213232, resulted in value: fumqjqbter
+Select for index: 45, resulted in key: 0.65741
+Search for key: 0.21699, resulted in value: qmekmysgwe
+Rank for key: 0.89442, resulted in: 61
+GetMaxValue for interval [0.21171,0.280481], resulted in value: yjffcatdje
+GetMaxValue for interval [0.33634,1.16395], resulted in value: yhhgnssrgq
+Rank for key: 0.340483, resulted in: 0
+Rank for key: 0.26008, resulted in: 0
+Rank for key: 0.407294, resulted in: 0
+Search for key: 0.224827, resulted in value: xneafqtsrk
+Rank for key: 0.0612089, resulted in: 0
+Search for key: 0.32674, resulted in value: NULL
+Rank for key: 0.711467, resulted in: 0
+Select for index: 51, resulted in key: NULL
+GetMaxValue for interval [0.414552,1.0282], resulted in value: NULL

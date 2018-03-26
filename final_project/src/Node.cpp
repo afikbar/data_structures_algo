@@ -42,7 +42,7 @@ Node *Node::get_predecessor() {
     int xOrderStats = z->find_orderStats(x);// x is not 0! (from while)
     Node *y = z->get_childX(xOrderStats - 1);
     while (!y->isLeaf()) y = y->get_childX(y->get_childCnt() - 1);
-    if (y->isSentinel()) return NULL;
+//    if (y->isSentinel()) return NULL;
     return y;
 }
 
